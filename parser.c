@@ -35,8 +35,8 @@ while (str[i] != ' ' || str[i] != '\0')
 {
     if (str[i] == "\"")
         ft_double_quotes(str, i);
-    if (str[i] == "\'")
-        ft_quotes(str, i);
+    //if (str[i] == "\'")
+        //ft_quotes(str, i);
     if (str[i] == "\\")
         ft_backslash(str, i);
     if (str[i] == "$")
