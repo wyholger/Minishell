@@ -1,2 +1,5 @@
 cmake-build-debug
 CMakeLists.txt
+.idea
+libft/.DS_Store
+.DS_Store
