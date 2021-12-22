@@ -1,14 +1,46 @@
-//
-// Created by Wynell Holger on 11/30/21.
-//
+#ifndef MINISHELL_H
+# define MINISHELL_H
 
-#ifndef MINISHELL_MINISHELL_H
-#define MINISHELL_MINISHELL_H
+# include <stdio.h>
+# include <unistd.h>
+# include <fcntl.h>
+# include <string.h>
+# include <stdlib.h>
 
-# include <sys/wait.h> //waitpid() и связанные макросы
-# include <unistd.h> //chdir();fork();exec();pid_t()
-# include <stdlib.h>  //malloc();realloc();free();exit();execvp();EXIT_SUCCESS, EXIT_FAILURE
-# include <stdio.h> //printf();stderr;getchar();perror()
-# include "../libft/libft.h"
+typedef struct s_data
+{
+    char **envp;
+    
+    char *str;
+   // char **arg_per_one;
+    char **history;
+    //int breakpoint;
+    char status;
+    //char cntrl;
+    //char *str_for_semocolon;
+    struct s_info *first_elem;
+    
+}              t_data;
 
-#endif //MINISHELL_MINISHELL_H
+typedef struct s_info
+{
+    char *command;
+    int cont_command;
+    char *arg;
+    // -n for echo
+    char *flag;
+    // >
+    char red_1;
+    // <
+    char red_2;
+    // >>
+    char red_3;
+    // <<
+    char red_4;
+    
+    char pipe;
+    struct s_info *next;
+    struct s_info *prev;
+}              t_info;
+
+#endif

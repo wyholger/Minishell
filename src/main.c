@@ -1,7 +1,22 @@
-#include "../include/minishell.h"
+#include "minishell.h"
 
-int main() {
-	printf("Hello, World!\n");
-	ft_putstr_fd("TEST CHENGE\n", 1);
-	return 0;
+
+
+
+
+
+
+
+int main(int argc, char **argv, char **envp)
+{
+    t_data data;
+    //ft_init_struct(&data, envp);
+    while (data.status != 0)
+    {
+        printf("minishell$ ");
+        //ft_read_line
+        //ft_parser
+        
+    }
+    //free struct
 }
