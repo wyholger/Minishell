@@ -7,6 +7,8 @@
 # include <string.h>
 # include <stdlib.h>
 
+typedef struct s_token;
+
 typedef struct s_data
 {
     char **envp;
@@ -42,5 +44,13 @@ typedef struct s_info
     struct s_info *next;
     struct s_info *prev;
 }              t_info;
+
+
+typedef struct s_token{
+	char			*word;
+	char			value;
+	struct s_token	*next;
+	struct s_token	*prev;
+}				t_token;
 
 #endif

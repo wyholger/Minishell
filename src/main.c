@@ -1,16 +1,12 @@
-#include "minishell.h"
-
-
-
-
-
-
-
+#include "../include/minishell.h"
 
 int main(int argc, char **argv, char **envp)
 {
+	(void)argc;
+	(void)argv;
     t_data data;
-    //ft_init_struct(&data, envp);
+
+	//ft_init_struct(&data, envp);
     while (data.status != 0)
     {
         printf("minishell$ ");
