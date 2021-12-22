@@ -15,22 +15,16 @@
 int	ft_lstclear(t_list **lst)
 {
 	t_list	*temp;
-	t_list	*temp2;
-	int		i;
 
 	if (!lst)
-		return (0);
-	temp2 = *lst;
-	i = 0;
+		return (1);
+	temp = *lst;
 	while (*lst)
 	{
-		if (i != 0 && *lst == temp2)
-			break ;
 		temp = *lst;
 		*lst = (*lst)->next;
 		if (temp)
 			free(temp);
-		i++;
 	}
 	return (0);
 }

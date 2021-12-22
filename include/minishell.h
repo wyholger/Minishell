@@ -7,8 +7,9 @@
 # include <string.h>
 # include <stdlib.h>
 # include <readline/readline.h>
+# include "../libft/libft.h"
 
-struct s_token;
+# define MINISHELL_MSG "\033[35mminishell$ \033[0m"
 
 typedef struct s_data
 {
@@ -21,7 +22,7 @@ typedef struct s_data
     char status;
     //char cntrl;
     //char *str_for_semocolon;
-    struct s_info *first_elem;
+    t_list *first_elem;
     
 }              t_data;
 
@@ -47,11 +48,11 @@ typedef struct s_info
 }              t_info;
 
 
-typedef struct s_token{
-	char			*word;
-	char			value;
-	struct s_token	*next;
-	struct s_token	*prev;
-}				t_token;
+//typedef struct s_token{
+//	char			*word;
+//	char			value;
+//	struct s_token	*next;
+//	struct s_token	*prev;
+//}				t_token;
 
 #endif

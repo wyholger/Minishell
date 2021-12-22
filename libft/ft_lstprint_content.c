@@ -21,12 +21,10 @@ int	ft_lstprint_content(t_list **lst)
 	iter = *lst;
 	while (iter)
 	{
-		if (i != 0 && iter == *lst)
-			break ;
-		ft_putnbr_fd(iter->x, 1);
-		ft_putstr_fd(" Prw ", 1);
-		if (iter->prev)
-			ft_putnbr_fd(iter->prev->x, 1);
+		ft_putstr_fd(iter->word, 1);
+//		ft_putstr_fd(" Prw ", 1);
+//		if (iter->prev)
+//			ft_putstr_fd(iter->prev->word, 1);
 		ft_putchar_fd('\n', 1);
 		iter = iter->next;
 		i++;

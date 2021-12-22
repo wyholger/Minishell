@@ -19,24 +19,15 @@ void	ft_lstadd_front(t_list **lst, t_list *new)
 	if (*lst == NULL)
 	{
 		*lst = new;
-		(*lst)->next = *lst;
-		(*lst)->prev = *lst;
+		(*lst)->next = NULL;
+		(*lst)->prev = NULL;
 	}
 	else
 	{
 		tmp = *lst;
-		while (tmp)
-		{
-			if (tmp->next == *lst)
-			{
-				tmp->next = new;
-				new->prev = tmp;
-				new->next = *lst;
-				(*lst)->prev = new;
-				*lst = (*lst)->prev;
-				break ;
-			}
-			tmp = tmp->next;
-		}
+		tmp->prev = new;
+		new->next = tmp;
+		new->prev = NULL;
+		*lst = new;
 	}
 }
