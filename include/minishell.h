@@ -6,8 +6,9 @@
 # include <fcntl.h>
 # include <string.h>
 # include <stdlib.h>
+# include <readline/readline.h>
 
-typedef struct s_token;
+struct s_token;
 
 typedef struct s_data
 {
