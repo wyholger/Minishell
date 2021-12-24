@@ -2,6 +2,8 @@ SRCS		=	src/main.c\
 				src/free.c\
 				src/search_in_envp.c
 
+SRCS_PARSER	=	src/parser.c
+
 SRCS_LIBFT	=	libft/ft_atoi.c			libft/ft_isdigit.c		libft/ft_memmove.c		libft/ft_strlen.c\
 				libft/ft_bzero.c		libft/ft_isprint.c		libft/ft_memset.c		libft/ft_strncmp.c\
 				libft/ft_calloc.c		libft/ft_memccpy.c		libft/ft_strchr.c		libft/ft_strnstr.c\
@@ -19,6 +21,8 @@ OBJS_LIBFT	=	${SRCS_LIBFT:.c=.o}
 
 OBJS		=	${SRCS:.c=.o}
 
+OBJS_PARSER	=	${SRCS_PARSER:.c=.o}
+
 CC			=	gcc
 
 FLAGS		=	-Wall -Wextra -Werror
@@ -31,21 +35,25 @@ HDR			=	include/minishell.h
 
 HDR_LIBFT	= libft/libft.h
 
-all: $(NAME) $(OBJS) $(HDR)
+all: $(NAME) $(OBJS) $(HDR) $(OBJS_PARSER)
 
-$(NAME):	$(OBJS) $(OBJS_LIBFT)
+$(NAME):	$(OBJS) $(OBJS_LIBFT) $(OBJS_PARSER)
 		make -C libft
 		$(CC) $(FLAGS)  -Llibft -lft  $(SRCS) libft/libft.a -lreadline -o $(NAME)
 
 %.o: %.c $(HDR) $(HDR_LIBFT)
 		$(CC) $(FLAGS) -c $< -o $@
 
+parser:		$(OBJS_PARSER) $(OBJS_LIBFT)
+		make -C libft
+		$(CC) $(FLAGS)  -Llibft -lft  $(SRCS_PARSER) libft/libft.a -lreadline -o parser
 clean:
-		$(RM) $(OBJS)
+		$(RM) $(OBJS) $(OBJS_PARSER)
 		$(MAKE) clean -C ./libft
 
 fclean:		clean
 		$(RM) $(NAME)
+		$(RM) parser
 		$(MAKE) fclean -C ./libft
 
 re:		fclean all clean

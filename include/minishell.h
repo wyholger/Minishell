@@ -11,6 +11,27 @@
 
 # define MINISHELL_MSG "\033[35mminishell$ \033[0m"
 
+typedef struct s_info
+{
+	char *command;
+	int cont_command;
+	char *arg;
+	// -n for echo
+	char *flag;
+	// >
+	char red_1;
+	// <
+	char red_2;
+	// >>
+	char red_3;
+	// <<
+	char red_4;
+	
+	char pipe;
+	struct s_info *next;
+	struct s_info *prev;
+}              t_info;
+
 typedef struct s_data
 {
     char **envp;
@@ -19,29 +40,10 @@ typedef struct s_data
     t_list *first_elem;
     t_info *first_elem_info;
     int breakpoint;
+	int status;
     
 }              t_data;
 
-typedef struct s_info
-{
-    char *command;
-    int cont_command;
-    char *arg;
-    // -n for echo
-    char *flag;
-    // >
-    char red_1;
-    // <
-    char red_2;
-    // >>
-    char red_3;
-    // <<
-    char red_4;
-    
-    char pipe;
-    struct s_info *next;
-    struct s_info *prev;
-}              t_info;
 
 
 void	split_free(char **str);

@@ -1,16 +1,13 @@
-#include "minishell.h"
-#include "libft.h"
+#include "../include/minishell.h"
 
-
-void ft_init_struct_info(t_info *info)
-{
-    //info->command = NULL;
-    //info->arg = NULL;
-    //info->flag = NULL;
-    //info->info = NULL;
-    //info->pipe = 0;
-}
-
+//void ft_init_struct_info(t_info *info)
+//{
+//    //info->command = NULL;
+//    //info->arg = NULL;
+//    //info->flag = NULL;
+//    //info->info = NULL;
+//    //info->pipe = 0;
+//}
 
 void ft_init_struct_main(t_data *data, char **envp)
 {
@@ -54,8 +51,6 @@ int ft_cansel_double_quote(t_data *data, int *i)
     return (1);
 }
 
-
-
 int ft_check_all_string(t_data *data)
 {
     int i;
@@ -83,14 +78,15 @@ int ft_check_all_string(t_data *data)
 }
 
 
-void ft_treatmen_token(t_list *token)
-{
-    
-}
+//void ft_treatmen_token(t_list *token)
+//{
+//
+//}
 
 
 void ft_quotes(t_data *data, int *i, t_list *token)
 {
+	(void)token;
     (*i)++;
     while (data->str[*i] != '\'')
         (*i)++;
@@ -99,7 +95,8 @@ void ft_quotes(t_data *data, int *i, t_list *token)
 
 void ft_double_quotes(t_data *data, int *i, t_list *token)
 {
-    (*i)++;
+	(void)token;
+	(*i)++;
     while (data->str[*i] != '\"')
         (*i)++;
     (*i)++;
@@ -176,7 +173,7 @@ t_list *ft_token_semocolon(t_data *data, int *i)
     }
     new_token->word[j] = '\0';
     data->breakpoint = *i + 1;
-    printf("%s\n", new_token->word);
+//    printf("%s\n", new_token->word);
     return (ft_lstnew(new_token->word));
 }
 
@@ -198,25 +195,26 @@ void ft_pars_token(t_data *data, t_list *token)
         if (data->str[i] == ' ')
         {
             tmp = ft_token_space(data, &i);
-           // ft_lstadd_back(&token, tmp);
-            ft_lstadd_front(&token, tmp);
+            ft_lstadd_back(&token, tmp);  //первый аргумент должен быть зануленным при первом проходе, чтобы функция его распознала как начало
+//            ft_lstadd_front(&token, tmp);
         }
         if (data->str[i] == ';')
         {
             tmp = ft_token_semocolon(data, &i);
-            ft_lstadd_front(&token, tmp);
+			ft_lstadd_back(&token, tmp);
+//            ft_lstadd_front(&token, tmp);
         }
         if (data->str[i] == '|')
         {
             tmp = ft_token_pipe(data, &i);
-           // ft_lstadd_back(&token, tmp);
-            ft_lstadd_front(&token, tmp);
+            ft_lstadd_back(&token, tmp);
+//            ft_lstadd_front(&token, tmp);
         }
             
         i++;
     }
     //Надо посмотреть как делается список;
-    //ft_lstprint_content(&token);
+    ft_lstprint_content(&token);
     
 }
 
@@ -232,7 +230,7 @@ void ft_parser(t_data *data, char **envp)
     check = ft_check_all_string(data);
     if (check == 0)
     {
-        printf("%s\n", data->str);
+//        printf("%s\n", data->str);
         ft_pars_token(data, &token);
           // send struct
     }
@@ -248,6 +246,8 @@ void ft_parser(t_data *data, char **envp)
 
 int main(int argc, char **argv, char **envp)
 {
+	(void)argc;
+	(void)argv;
     t_data data;
     
     //char *str = "Hello W  lol orld  W'erry";
