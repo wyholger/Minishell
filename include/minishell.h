@@ -17,7 +17,8 @@ typedef struct s_data
     char *str;
     int exit_proc_number;
     t_list *first_elem;
-	int status;
+    t_info *first_elem_info;
+    int breakpoint;
     
 }              t_data;
 
@@ -41,14 +42,6 @@ typedef struct s_info
     struct s_info *next;
     struct s_info *prev;
 }              t_info;
-
-
-//typedef struct s_token{
-//	char			*word;
-//	char			value;
-//	struct s_token	*next;
-//	struct s_token	*prev;
-//}				t_token;
 
 
 void	split_free(char **str);
