@@ -1,4 +1,6 @@
-SRCS		=	src/main.c
+SRCS		=	src/main.c\
+				src/free.c\
+				src/search_in_envp.c
 
 SRCS_LIBFT	=	libft/ft_atoi.c			libft/ft_isdigit.c		libft/ft_memmove.c		libft/ft_strlen.c\
 				libft/ft_bzero.c		libft/ft_isprint.c		libft/ft_memset.c		libft/ft_strncmp.c\

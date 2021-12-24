@@ -16,7 +16,8 @@ typedef struct s_data
     char **envp;
     char *str;
     int exit_proc_number;
-    struct s_info *first_elem;
+    t_list *first_elem;
+	int status;
     
 }              t_data;
 
@@ -48,5 +49,9 @@ typedef struct s_info
 //	struct s_token	*next;
 //	struct s_token	*prev;
 //}				t_token;
+
+
+void	split_free(char **str);
+char	*search_in_envp(t_data *data, char *str);
 
 #endif

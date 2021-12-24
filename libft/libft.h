@@ -43,7 +43,6 @@ void	*ft_memmove(void *dest, const void *source, size_t n);
 void	*ft_memset(void *destination, int c, size_t n);
 char	*ft_strchr(const char *str, int ch);
 char	*ft_strrchr(const char *str, int ch);
-char	*ft_strcpy(char *dest, const char *source);
 char	*ft_strdup(const char *str);
 size_t	ft_strlcat(char *dst, const char *src, size_t size);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
@@ -72,4 +71,6 @@ int		ft_lstclear(t_list **lst);
 void	ft_lstiter(t_list *lst, void (*f)(char *));
 int		ft_atoi_base(char *str, int str_base);
 int		ft_lstprint_content(t_list **lst);
+int		ft_strcmp(const char *s1, const char *s2);
+char	*ft_strcpy(char *src);
 #endif
