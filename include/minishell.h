@@ -14,15 +14,9 @@
 typedef struct s_data
 {
     char **envp;
-    
     char *str;
-   // char **arg_per_one;
-    char **history;
-    //int breakpoint;
-    char status;
-    //char cntrl;
-    //char *str_for_semocolon;
-    t_list *first_elem;
+    int exit_proc_number;
+    struct s_info *first_elem;
     
 }              t_data;
 

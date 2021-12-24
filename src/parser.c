@@ -4,281 +4,107 @@
 
 void ft_init_struct_info(t_info *info)
 {
-    info->command = NULL;
-    info->arg = NULL;
-    info->flag = NULL;
-    info->info = NULL;
-    info->pipe = 0;
+    //info->command = NULL;
+    //info->arg = NULL;
+    //info->flag = NULL;
+    //info->info = NULL;
+    //info->pipe = 0;
 }
 
 
-void ft_init_struct_main(t_main *main, char **env, char *str)
+void ft_init_struct_main(t_data *data, char **envp)
 {
-    main->env = env;
-    main->exit_proc_number = 0;
-    main->str = str;
-    main->arg_per_one = NULL;
+    data->envp = envp;
+    data->exit_proc_number = 0;
+    //data->str = str;
+
 }
 
-char *ft_new_str_parse(t_main *main, int *i, int *j)
-{
-    char *tmp;
-    int k;
-    int h;
-    
-    k = 0;
-    h = 0;
-    tmp = malloc(sizeof(char) * ft_strlen(main->str) - 1);
-    if (!tmp)
-        return (NULL);
-    while (main->str[k])
-    {
-        if (k == *i || k == *j)
-            k++;
-        tmp[h] = main->str[k];
-        k++;
-        h++;
-    }
-    tmp[h] = '\0';
-    //free(main->str);
-    main->str = tmp;
-    return(main->str);
-    
-}
-
-int ft_it_is_key(char *str, t_main *main)
-{
-    int i;
-    
-    i = 0;
-    
-    
-    
-    return(0);
-}
-
-
-int ft_dollar(t_main *main, int *i)
-{
-    int j;
-    char *tmp;
-    int k;
-    
-    k = 0;
-    j = *i++;
-    while (main->str[j] != ' ')
-        j++;
-    tmp = malloc(sizeof(char) * (j - *i));
-    j = *i++;
-    while (main->str[j] != ' ')
-    {
-        tmp[k] = main->str[j];
-        k++;
-        j++;
-    }
-    tmp[k] = '\0';
-    k = ft_it_is_key(tmp, main);
-    
-    return(0);
-}
-
-void ft_new_str(t_main *main, int *i)
-{
-    int k;
-    int j;
-    char *tmp;
-    
-    j = *i;
-    k = 0;
-    while (main->str[j] != ';' && main->str[j] != '\0')
-        j++;
-    tmp = malloc(sizeof(char) * (j - *i) + 1);
-    j = *i;
-    while (main->str[j] != ';' && main->str[j] != '\0')
-    {
-        tmp[k] = main->str[j];
-        k++;
-        j++;
-    }
-    tmp[k] = '\0';
-    //free main->str
-    main->str = tmp;
-    free(tmp);
-    *i = 0;
-}
-
-int ft_backslash(t_main *main, int *i)
+int ft_cansel_quote(t_data *data, int *i)
 {
     int j;
     
-    j = *i;
-    ft_new_str_parse(main, i, &j);
-    return(0);
-}
-
-int ft_cansel_quote(char *str, int *i)
-{
-    int j;
-    
-    j = *i;
-    while (str[++j])
+    j = *i + 1;
+    while (data->str[j])
     {
-        if(str[j] == '\'')
+        if(data->str[j] == '\'')
+        {
+            *i = j + 1;
             return (0);
+        }
+        j++;
     }
     return (1);
 }
 
-int ft_cansel_double_quote(char *str, int *i)
+int ft_cansel_double_quote(t_data *data, int *i)
 {
     int j;
     
-    j = *i;
-    while (str[++j])
+    j = *i + 1;
+    while (data->str[j])
     {
-        if(str[j] == '\"')
+        if(data->str[j] == '\"')
+        {
+            *i = j + 1;
             return (0);
+        }
+        j++;
     }
     return (1);
 }
 
 
-int ft_quoetes(t_main *main, int *i)
-{
-    int j;
-    int check;
-    
-    check = 0;
-    j = *i;
-    check = ft_cansel_quote(main->str, i);
-    if (check == 0)
-    {
-        while(main->str[++(*i)] != '\'')
-        {
-            //if(main->str[*i] == '\')
-               //ft_new_str_parse_backslash(main, i, &j);
-            if(main->str[*i] == '\'')
-                break ;
-        }
-        ft_new_str_parse(main, i, &j);
-    }
-    
-    
-    
-    
-    
-    return(check);
-}
 
-int ft_double_quoetes(t_main *main, int *i)
-{
-    int j;
-    int check;
-    
-    check = 0;
-    j = *i;
-    check = ft_cansel_double_quote(main->str, i);
-    if (check == 0)
-    {
-        while(main->str[++(*i)] != '\"' && main->str[++(*i)] != '\0')
-        {
-            //if(main->str[*i] == '\')
-               //ft_new_str_parse_backslash(main, i, &j);
-            //if(main->str[*i] == '$')
-            //ft_dollar(main, i, &j);
-        }
-        ft_new_str_parse(main, i, &j);
-    }
-    
-    return(check);
-}
-
-
-
-int ft_pipe(t_main *main, int *i, t_info *info)
-{
-    int k;
-    char *tmp;
-    
-    k = *i;
-    tmp = malloc(sizeof(char) * (k + 1));
-    k = 0;
-    while (k != *i)
-    {
-        tmp[k] = main->str[k];
-        k++;
-    }
-    tmp[k] = '\0';
-    main->str_for_semocolon = tmp;
-    free(tmp);
-    *i = *i + 1;
-    return(0);
-}
-
-
-
-int ft_semocolon(t_main *main, int *i, t_info *info)
-{
-    
-    
-    return(0);
-}
-
-
-
-int ft_pars_all_string(t_main *main, t_info *info)
+int ft_check_all_string(t_data *data)
 {
     int i;
     int check;
     
     check = 0;
     i = 0;
-    while(main->str[i])
+    while(data->str[i])
     {
-        if(main->str[i] == '\'')
-            check = ft_quoetes(main, &i);
-        if(main->str[i] == '\"')
-            check = ft_double_quoetes(main, &i);
-        if(main->str[i] == '$')
-            check = ft_dollar(main, &i);
-        if(main->str[i] == '\\')
-            check = ft_backslash(main, &i);
-        if(main->str[i] == '|')
-            check = ft_pipe(main, &i, info);
-        if(data->str[i] == '<' || data->str[i] == '>' || data->str[i] == '<<' || data->str[i] == '>>)
-           check = ft_redirects(data, &i);
-        if(main->str[i] == ';')
-        {
-            ft_semocolon(main, &i, info);
-            ft_new_str(main, &i);
-            return (check);
-        }
+        if(data->str[i] == '\'')
+            check = ft_cansel_quote(data, &i);
+        if(data->str[i] == '\"')
+            check = ft_cansel_double_quote(data, &i);
         if (check == 1)
             return (check);
         i++;
     }
+    if(data->str[i - 1] == '|')
+        check = 1;
+    if(data->str[i - 1] == '<' || data->str[i - 1] == '>')
+       check = 1;
     return (check);
 }
 
-void ft_parser(char *str, char **env)
+
+void ft_pars_token(t_data *data)
 {
-    t_main *main;
-    t_info *info;
-    int i = 0;
+    
+    
+}
+
+
+void ft_parser(t_data *data, char **envp)
+{
     int check;
     
     check = 0;
-    //if (main == NULL || info == NULL)
-      //  check = 1;
-    ft_init_struct_main(main, env, str);
-    ft_init_struct_info(info);
-    printf("%s\n", main->str);
-    check = ft_pars_all_string(main, info);
+    ft_init_struct_main(data, envp);
+    printf("%s\n", data->str);
+    check = ft_check_all_string(data);
     if (check == 0)
-        printf("%s\n", main->str);
+    {
+        printf("%s\n", data->str);
+        ft_pars_token(data);
+    }
+        
    else
        printf("Error\n");
-    printf("%s\n", main->str_for_semocolon);
+    //printf("%s\n", main->str_for_semocolon);
     // send struct
     
     
@@ -286,10 +112,13 @@ void ft_parser(char *str, char **env)
 }
 
 
-int main(int argc, char **argv, char **env)
+int main(int argc, char **argv, char **envp)
 {
+    t_data data;
     
-    char *str = "Hello W  lol orld  W'erry";
-    ft_parser(str, env);
+    //char *str = "Hello W  lol orld  W'erry";
+    data.str = "Hello W  \"lo'l orld\"  W'er'ry";
+    //printf("%s\n", data.str);
+    ft_parser(&data, envp);
     
 }
