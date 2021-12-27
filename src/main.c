@@ -22,6 +22,7 @@ void	ft_init_struct(t_data *data, char **envp)
 	(void)envp;
 	data->status = 1;
 	data->first_elem = NULL;
+	data->first_elem_info = NULL;
 	data->envp = envp;
 }
 

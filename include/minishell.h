@@ -48,5 +48,12 @@ typedef struct s_data
 
 void	split_free(char **str);
 char	*search_in_envp(t_data *data, char *str);
-
+/*
+Функуии для работы с листами инфо
+*/
+t_info	*info_new();
+void	info_add_back(t_info **lst, t_info *new);
+int		info_clear(t_info **lst);
+int		info_print_content(t_info **lst);
+int		info_size(t_info *lst);
 #endif
