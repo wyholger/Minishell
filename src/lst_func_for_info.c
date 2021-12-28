@@ -60,14 +60,47 @@ int	info_clear(t_info **lst)
 
 int	info_print_content(t_info **lst)
 {
+	int     j;
 	int		i;
 	t_info	*iter;
 
 	i = 0;
+	j = 0;
 	iter = *lst;
 	while (iter)
 	{
-		printf("cmd: %s; arg: %s; flag: %s;\n", iter->command, iter->arg, iter->flag);
+		printf("# %d:\n", iter->count_command);
+		printf("cmd: %7s; arg: ", iter->command);
+		if (iter->arg != NULL)
+		{
+			while (iter->arg[j])
+			{
+				if (iter->arg[j+1])
+					printf("%5s, ", iter->arg[j]);
+				else 
+					printf("%5s; ", iter->arg[j]);
+				j++;
+			}
+		}
+		else
+			printf("%5s; ", NULL);
+		j = 0;
+		printf("flag: %3d; red: ", iter->flag);
+		if (iter->red != NULL)
+		{
+			while (iter->red[j])
+			{
+				if (iter->red[j+1])
+					printf("%5s, ", iter->red[j]);
+				else 
+					printf("%5s; ", iter->red[j]);
+				j++;
+			}
+		}
+		else
+			printf("%5s; ", NULL);
+		printf("pipe: %2d; sem(';'): %2d\n", iter->pipe, iter->semocolon);
+
 		// ft_putstr_fd(iter->command, 1);
 		// ft_putstr_fd(" Arg ", 1);
 		// if (iter->prev)

@@ -17,7 +17,7 @@ typedef struct s_info
 	int count_command;
 	char **arg;
 	// -n for echo
-	char *flag;
+	int flag;
 	// >(1)
 	char **red;
 	// <(2)
@@ -25,8 +25,8 @@ typedef struct s_info
 	// <<(4)
     // 2>(5)
     // 2>>(6)
-	char pipe;
-    char semocolon;
+	int pipe;
+    int semocolon;
 	struct s_info *next;
 	struct s_info *prev;
 }              t_info;
@@ -37,7 +37,7 @@ typedef struct s_data
     char *str;
     int exit_proc_number;
     t_list *token;
-    t_info *first_elem_info;
+    t_info *info;
     int breakpoint;
 	int status;
     
