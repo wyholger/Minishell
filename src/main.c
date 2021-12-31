@@ -47,7 +47,7 @@ int	check_on_bild_cmd(t_info *tmp)
 
 void	exit_exec(t_data *data, int status)
 {
-	data->exit_proc_number = 0;
+	data->exit_proc_number = status;
 }
 
 void	echo(t_data *data, t_info *tmp)
@@ -94,9 +94,58 @@ void	exec_build_cmd(t_data *data, t_info *tmp)
 	// return (0);
 }
 
+void	init_pid(t_data *data)
+{
+	int i;
+
+	i = 0;
+	data->pid = malloc(sizeof(pid_t) * (info_size(&data->info) + 1));
+	if (!data->pid)
+		exit (0); //add if 
+	while (i <= info_size(&data->info))
+	{
+		data->pid[i] = -1;
+		i++;
+	}
+}
+
+void	wait_pid(t_data *data)
+{
+	int i;
+
+	i = 0;
+	while (data->pid[i] != -1)
+	{
+		if (waitpid(data->pid[i], &data->exit_proc_number, 0) == -1)
+			return (perror("WAIT_PID"));
+		if (WIFSIGNALED(data->exit_proc_number))
+			data->exit_proc_number = 130;
+		else
+			data->exit_proc_number = WEXITSTATUS(data->exit_proc_number);
+	}
+}
+
+void child_signal_handler(int sig)
+{
+	(void)sig;
+}
+
+void	add_pid(t_data *data, pid_t pid)
+{
+	int i;
+
+	i = 0;
+	while (data->pid[i] != -1)
+	{
+		i++;
+	}
+	data->pid[i] = pid;
+}
+
 void	exec(t_data *data)
 {
 	t_info *tmp;
+	pid_t	pid;
 
 	tmp = data->info;
 	printf("size info %d\n", info_size(tmp));
@@ -104,7 +153,21 @@ void	exec(t_data *data)
 	{
 		if (check_on_bild_cmd(tmp) == 1)
 			exec_build_cmd(data, tmp);
-			tmp = tmp->next;
+		else 
+		{
+			pid = fork();
+			if (pid == -1)
+				return ;
+			else if (pid == 0)
+				signal(SIGINT, child_signal_handler);
+			add_pid(data, pid);
+			if (pid == 0)
+			{
+				
+			}
+		}
+
+		tmp = tmp->next;
 	}
 }
 
@@ -121,24 +184,24 @@ void    plug(t_data *data)
 	data->info->red = NULL;
 	data->info->semocolon = 1;
 	data->info->pipe = 0;
-	// info_add_back(&data->info, info_new());
-	// tmp = tmp->next;
-	// tmp->command = "ls";
-	// tmp->count_command = 1;
-	// tmp->arg = ft_split("1 32", ' ');
-	// tmp->flag = 0;
-	// tmp->red = NULL;
-	// tmp->pipe = 1;
-	// tmp->semocolon = 0;
-	// info_add_back(&data->info, info_new());
-	// tmp = tmp->next;
-	// tmp->command = "grep";
-	// tmp->count_command = 2;
-	// tmp->arg = ft_split("1", ' ');
-	// tmp->flag = 0;
-	// tmp->red = NULL;
-	// tmp->pipe = 0;
-	// tmp->semocolon = 1;
+	info_add_back(&data->info, info_new());
+	tmp = tmp->next;
+	tmp->command = "ls";
+	tmp->count_command = 1;
+	tmp->arg = ft_split("1 32", ' ');
+	tmp->flag = 0;
+	tmp->red = NULL;
+	tmp->pipe = 1;
+	tmp->semocolon = 0;
+	info_add_back(&data->info, info_new());
+	tmp = tmp->next;
+	tmp->command = "grep";
+	tmp->count_command = 2;
+	tmp->arg = ft_split("1", ' ');
+	tmp->flag = 0;
+	tmp->red = NULL;
+	tmp->pipe = 0;
+	tmp->semocolon = 1;
 	// info_add_back(&data->info, info_new());
 	// tmp = tmp->next;
 	// tmp->command = "ls";

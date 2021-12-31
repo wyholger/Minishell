@@ -6,6 +6,8 @@
 # include <fcntl.h>
 # include <string.h>
 # include <stdlib.h>
+# include <signal.h>
+# include <sys/wait.h>
 # include <readline/readline.h>
 # include "../libft/libft.h"
 
@@ -33,13 +35,14 @@ typedef struct s_info
 
 typedef struct s_data
 {
-    char **envp;
-    char *str;
-    int exit_proc_number;
-    t_list *token;
-    t_info *info;
-    int breakpoint;
-	int status;
+    char	**envp;
+    char	*str;
+    int		exit_proc_number;
+    t_list	*token;
+    t_info	*info;
+	pid_t	*pid;
+    int		breakpoint;
+	int		status;
     
 }              t_data;
 

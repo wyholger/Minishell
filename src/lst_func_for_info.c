@@ -83,7 +83,7 @@ int	info_print_content(t_info **lst)
 			}
 		}
 		else
-			printf("%5s; ", NULL);
+			printf("%5s; ", "(null)");
 		j = 0;
 		printf("flag: %3d; red: ", iter->flag);
 		if (iter->red != NULL)
@@ -98,7 +98,7 @@ int	info_print_content(t_info **lst)
 			}
 		}
 		else
-			printf("%5s; ", NULL);
+			printf("%5s; ", "(null)");
 		printf("pipe: %2d; sem(';'): %2d\n", iter->pipe, iter->semocolon);
 
 		// ft_putstr_fd(iter->command, 1);
