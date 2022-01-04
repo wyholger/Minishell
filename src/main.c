@@ -62,7 +62,6 @@ void	echo(t_data *data, t_info *tmp)
 		{
 			while (tmp->arg[i])
 			{
-				write(1, tmp->arg[i], ft_strlen(tmp->arg[i]));
 				ft_putstr_fd(tmp->arg[i], 1);
 				i++;
 				if (tmp->arg[i])
@@ -99,10 +98,10 @@ void	init_pid(t_data *data)
 	int i;
 
 	i = 0;
-	data->pid = malloc(sizeof(pid_t) * (info_size(&data->info) + 1));
+	data->pid = malloc(sizeof(pid_t) * (info_size(data->info) + 1));
 	if (!data->pid)
 		exit (0); //add if 
-	while (i <= info_size(&data->info))
+	while (i <= info_size(data->info))
 	{
 		data->pid[i] = -1;
 		i++;
@@ -116,12 +115,17 @@ void	wait_pid(t_data *data)
 	i = 0;
 	while (data->pid[i] != -1)
 	{
-		if (waitpid(data->pid[i], &data->exit_proc_number, 0) == -1)
+//		printf("YYYYYYYYYYYYYYYYYYYYYYYYYYYYY\n");
+		if (waitpid(data->pid[i], &data->exit_proc_number, 0) == -1) {
 			return (perror("WAIT_PID"));
-		if (WIFSIGNALED(data->exit_proc_number))
+		}
+		if (WIFSIGNALED(data->exit_proc_number)) {
 			data->exit_proc_number = 130;
-		else
+		}
+		else {
 			data->exit_proc_number = WEXITSTATUS(data->exit_proc_number);
+		}
+		i++;
 	}
 }
 
@@ -142,6 +146,45 @@ void	add_pid(t_data *data, pid_t pid)
 	data->pid[i] = pid;
 }
 
+void	init_pipe_redir(t_data *data, t_info *info)
+{
+	if (info->prev != NULL && info->prev->pipe == 1)
+	{
+	
+	}
+}
+
+
+void	serch_bin(t_data *data, t_info *info)
+{
+	int i;
+	char **split;
+	char *path;
+	char *command;
+	
+	i = 0;
+	command = ft_strjoin("/", info->command);
+	split = NULL;
+	split = ft_split(search_in_envp(data, "PATH"), ':');
+	while (split[i])
+	{
+		path = ft_strjoin(split[i], command);
+		if (access(path, 0) == 0)
+		{
+			data->exit_proc_number = execve(path, info->arg, data->envp);
+		}
+		i++;
+		free(path);
+	}
+	free(command);
+	split_free(split);
+}
+
+void	exec_bin(t_data *data, t_info *info)
+{
+	serch_bin(data, info);
+}
+
 void	exec(t_data *data)
 {
 	t_info *tmp;
@@ -156,14 +199,19 @@ void	exec(t_data *data)
 		else 
 		{
 			pid = fork();
-			if (pid == -1)
+			if (pid == -1) {
 				return ;
-			else if (pid == 0)
+			}
+			else if (pid == 0) {
 				signal(SIGINT, child_signal_handler);
+			}
 			add_pid(data, pid);
+//			printf("PIDS %d, %d\n", data->pid[0], data->pid[1]);
+//			printf("BLAH\n");
 			if (pid == 0)
 			{
-				
+				init_pipe_redir(data, tmp);
+				exec_bin(data, tmp);
 			}
 		}
 
@@ -188,7 +236,7 @@ void    plug(t_data *data)
 	tmp = tmp->next;
 	tmp->command = "ls";
 	tmp->count_command = 1;
-	tmp->arg = ft_split("1 32", ' ');
+	tmp->arg = ft_split("ls 1 3 32", ' ');
 	tmp->flag = 0;
 	tmp->red = NULL;
 	tmp->pipe = 1;
@@ -197,7 +245,7 @@ void    plug(t_data *data)
 	tmp = tmp->next;
 	tmp->command = "grep";
 	tmp->count_command = 2;
-	tmp->arg = ft_split("1", ' ');
+	tmp->arg = ft_split("grep 1", ' ');
 	tmp->flag = 0;
 	tmp->red = NULL;
 	tmp->pipe = 0;
@@ -227,7 +275,10 @@ int main(int argc, char **argv, char **envp)
 	// free(str);
 	plug(&data);
 	info_print_content(&data.info);
+	init_pid(&data);
 	exec(&data);
+	wait_pid(&data);
+	
 	// while (data.status != 0)
 	// {
 	// 	data.str = readline(MINISHELL_MSG);
