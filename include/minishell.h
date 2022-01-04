@@ -25,25 +25,25 @@ typedef struct s_info
 	// <(2)
 	// >>(3)
 	// <<(4)
-    // 2>(5)
-    // 2>>(6)
+	// 2>(5)
+	// 2>>(6)
 	int pipe;
-    int semocolon;
+	int semocolon;
 	struct s_info *next;
 	struct s_info *prev;
 }              t_info;
 
 typedef struct s_data
 {
-    char	**envp;
-    char	*str;
-    int		exit_proc_number;
-    t_list	*token;
-    t_info	*info;
+	char	**envp;
+	char	*str;
+	int		exit_proc_number;
+	t_list	*token;
+	t_info	*info;
 	pid_t	*pid;
-    int		breakpoint;
+	int		breakpoint;
 	int		status;
-    
+	
 }              t_data;
 
 
@@ -58,4 +58,7 @@ void	info_add_back(t_info **lst, t_info *new);
 int		info_clear(t_info **lst);
 int		info_print_content(t_info **lst);
 int		info_size(t_info *lst);
+void	pipework(t_data *data, t_info *info);
+void	child_process(t_data *data, t_info *info);
+void	exec_bin(t_data *data, t_info *info);
 #endif

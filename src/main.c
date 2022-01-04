@@ -146,13 +146,13 @@ void	add_pid(t_data *data, pid_t pid)
 	data->pid[i] = pid;
 }
 
-void	init_pipe_redir(t_data *data, t_info *info)
-{
-	if (info->prev != NULL && info->prev->pipe == 1)
-	{
+// void	init_pipe_redir(t_data *data, t_info *info)
+// {
+// 	if (info->prev != NULL && info->prev->pipe == 1)
+// 	{
 	
-	}
-}
+// 	}
+// }
 
 
 void	serch_bin(t_data *data, t_info *info)
@@ -182,7 +182,19 @@ void	serch_bin(t_data *data, t_info *info)
 
 void	exec_bin(t_data *data, t_info *info)
 {
+	int fd;
+
+	if (info->red[0] == 1)
+	{
+		fd = open(info->red[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (fd == -1)
+		{
+			data->exit_proc_number = E_FILE_OPEN;
+			
+		}
+	}
 	serch_bin(data, info);
+	exit (data->exit_proc_number);
 }
 
 void	exec(t_data *data)
@@ -196,7 +208,7 @@ void	exec(t_data *data)
 	{
 		if (check_on_bild_cmd(tmp) == 1)
 			exec_build_cmd(data, tmp);
-		else 
+		else if (tmp->pipe == 0 && tmp->red == NULL)
 		{
 			pid = fork();
 			if (pid == -1) {
@@ -210,12 +222,20 @@ void	exec(t_data *data)
 //			printf("BLAH\n");
 			if (pid == 0)
 			{
-				init_pipe_redir(data, tmp);
+				// init_pipe_redir(data, tmp);
 				exec_bin(data, tmp);
 			}
 		}
-
+		else if (tmp->pipe == 1)
+		{
+			// printf("jfksdjksafdhj\n");
+			pipework(data, tmp);
+			while (tmp && tmp->pipe == 1)
+				tmp = tmp->next;
+		}
 		tmp = tmp->next;
+		// while (tmp && tmp->pipe == 1)
+		// 	tmp = tmp->next;
 	}
 }
 
@@ -250,15 +270,15 @@ void    plug(t_data *data)
 	tmp->red = NULL;
 	tmp->pipe = 0;
 	tmp->semocolon = 1;
-	// info_add_back(&data->info, info_new());
-	// tmp = tmp->next;
-	// tmp->command = "ls";
-	// tmp->count_command = 3;
-	// tmp->arg = ft_split("3", ' ');
-	// tmp->flag = 0;
-	// tmp->red = ft_split("1 32", ' ');
-	// tmp->pipe = 0;
-	// tmp->semocolon = 0;
+	info_add_back(&data->info, info_new());
+	tmp = tmp->next;
+	tmp->command = "ls";
+	tmp->count_command = 3;
+	tmp->arg = NULL;
+	tmp->flag = 0;
+	tmp->red = ft_split("1 32", ' ');
+	tmp->pipe = 0;
+	tmp->semocolon = 0;
 }
 
 int main(int argc, char **argv, char **envp)
