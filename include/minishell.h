@@ -10,6 +10,8 @@
 # include <sys/wait.h>
 # include <readline/readline.h>
 # include "../libft/libft.h"
+# include <errno.h>
+# include <termios.h>
 
 # define MINISHELL_MSG "\033[35mminishell$ \033[0m"
 
@@ -61,4 +63,9 @@ int		info_size(t_info *lst);
 void	pipework(t_data *data, t_info *info);
 void	child_process(t_data *data, t_info *info);
 void	exec_bin(t_data *data, t_info *info);
+int		init_redirect_file(t_data *data, t_info *info);
+int		open_file(t_data *data, char *argv, int i);
+void	exec_build_cmd(t_data *data, t_info *tmp, int filein);
+int		check_on_bild_cmd(t_info *tmp);
+int		search_num_line_in_envp(t_data *data, char *str);
 #endif

@@ -31,7 +31,13 @@ void	child_process(t_data *data, t_info *info)
 		// printf("BLAAAAAAAAA %d\n", deskr);
 		// if (info->pipe == 1)
 		deskr = dup2(fd[1], STDOUT_FILENO);
-		exec_bin(data, info);
+		if (check_on_bild_cmd(info) == 1)
+		{
+			exec_build_cmd(data, info, 1);
+			exit(data->exit_proc_number);
+		}
+		else
+			exec_bin(data, info);
 		// exit (data->exit_proc_number);
 	}
 	else
@@ -42,20 +48,79 @@ void	child_process(t_data *data, t_info *info)
 	}
 }
 
+int	open_file(t_data *data, char *argv, int i)
+{
+	int	file;
+
+	file = 0;
+	if (i == 0)
+		file = open(argv, O_WRONLY | O_CREAT | O_APPEND, 0777);
+	else if (i == 1)
+		file = open(argv, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	else if (i == 2)
+		file = open(argv, O_RDONLY, 0777);
+	if (file == -1)
+	{
+		data->exit_proc_number = 1;
+		printf("ERROR\n");
+		exit(1);
+	}
+	return (file);
+}
+
+int	init_redirect_file(t_data *data, t_info *info)
+{
+	int i;
+	int	filein;
+
+	i = 0;
+	if (ft_strcmp(info->red[0], "2") == 0)
+		i += 2;
+	while (info->red[i])
+	{
+		if (ft_strcmp(info->red[i], "1") == 0)
+			filein = open_file(data, info->red[i+1], 1);
+		if (ft_strcmp(info->red[i], "3") == 0)
+			filein = open_file(data, info->red[i+1], 0);
+		i+=2;
+	}
+	return (filein);
+}
+
 void pipework(t_data *data, t_info *info)
 {
 	// int i;
-	t_info *tmp;
+	t_info	*tmp;
+	int		filein;
+	int		fileout;
 
 	tmp = info;
-	// int	filein;
-	// int	fileout;
+	filein = 1;
+	if (tmp->red != NULL && ft_strcmp(tmp->red[0], "2") == 0)
+	{
+		fileout = open_file(data, tmp->red[1], 1);
+		dup2(fileout, STDIN_FILENO);
+	}
 	while (tmp && tmp->pipe == 1)
 	{
 		child_process(data, tmp);
 		tmp = tmp->next;
 	}
-	dup2(1, STDOUT_FILENO);
-	exec_bin(data, tmp);
-
+	if (tmp->red != NULL)
+	{
+		filein = init_redirect_file(data, tmp);
+		dup2(filein, STDOUT_FILENO);
+		// ft_putstr_fd("AAAAAA\n", filein);
+	}
+	else
+		dup2(1, STDOUT_FILENO);
+		
+	if (check_on_bild_cmd(tmp) == 1)
+	{
+		exec_build_cmd(data, info, filein);
+		// exit(data->exit_proc_number);
+	}
+	else
+		exec_bin(data, tmp);
+	close(filein);
 }
