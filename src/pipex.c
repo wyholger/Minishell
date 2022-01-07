@@ -44,7 +44,7 @@ void	child_process(t_data *data, t_info *info)
 	{
 		close(fd[1]);
 		dup2(fd[0], STDIN_FILENO);
-		waitpid(pid, NULL, 0);
+		// waitpid(pid, NULL, 0);
 	}
 }
 
@@ -87,7 +87,7 @@ int	init_redirect_file(t_data *data, t_info *info)
 	return (filein);
 }
 
-void pipework(t_data *data, t_info *info)
+t_info	*pipework(t_data *data, t_info *info)
 {
 	// int i;
 	t_info	*tmp;
@@ -110,7 +110,7 @@ void pipework(t_data *data, t_info *info)
 	{
 		filein = init_redirect_file(data, tmp);
 		dup2(filein, STDOUT_FILENO);
-		// ft_putstr_fd("AAAAAA\n", filein);
+		ft_putstr_fd("AAAAAA\n", filein);
 	}
 	else
 		dup2(1, STDOUT_FILENO);
@@ -118,9 +118,14 @@ void pipework(t_data *data, t_info *info)
 	if (check_on_bild_cmd(tmp) == 1)
 	{
 		exec_build_cmd(data, info, filein);
+		// dup2(1, STDOUT_FILENO);
+		// close(filein);
+		// close(1);
 		// exit(data->exit_proc_number);
 	}
 	else
 		exec_bin(data, tmp);
-	close(filein);
+	dup2(data->std_out, STDOUT_FILENO);
+	return (tmp);
+	// close(filein);
 }

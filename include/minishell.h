@@ -45,6 +45,8 @@ typedef struct s_data
 	pid_t	*pid;
 	int		breakpoint;
 	int		status;
+	int		std_in;
+	int		std_out;
 	
 }              t_data;
 
@@ -60,7 +62,7 @@ void	info_add_back(t_info **lst, t_info *new);
 int		info_clear(t_info **lst);
 int		info_print_content(t_info **lst);
 int		info_size(t_info *lst);
-void	pipework(t_data *data, t_info *info);
+t_info	*pipework(t_data *data, t_info *info);
 void	child_process(t_data *data, t_info *info);
 void	exec_bin(t_data *data, t_info *info);
 int		init_redirect_file(t_data *data, t_info *info);

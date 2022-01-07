@@ -25,6 +25,8 @@ void	ft_init_struct(t_data *data, char **envp)
 	data->info = NULL;
 	data->envp = envp;
 	data->exit_proc_number = 0;
+	data->std_in = dup(STDOUT_FILENO);
+	data->std_out = dup(STDOUT_FILENO);
 }
 
 int	check_on_bild_cmd(t_info *tmp)
@@ -197,7 +199,6 @@ void	serch_bin(t_data *data, t_info *info)
 	char	*path;
 	char	*command;
 
-	
 	i = 0;
 	flag = 0;
 	if (info->command[0] == '/')
@@ -285,30 +286,33 @@ void	exec(t_data *data)
 			exec_build_cmd(data, tmp, 1);
 		else if (tmp->pipe == 0 && tmp->red == NULL)
 		{
+			// printf("HHHHHHHHHH\n");
 			pid = fork();
 			if (pid == -1) {
 				return ;
 			}
-			else if (pid == 0) 
-			{
-				signal(SIGINT, child_signal_handler);
-			}
+			// else if (pid == 0) 
+			// {
+			// 	signal(SIGINT, child_signal_handler);
+			// }
 			add_pid(data, pid);
 //			printf("PIDS %d, %d\n", data->pid[0], data->pid[1]);
 //			printf("BLAH\n");
 			if (pid == 0)
 			{
+				// printf("HHHHHHHHHH\n");
 				// init_pipe_redir(data, tmp);
 				exec_bin(data, tmp);
 			}
 		}
 		else if (tmp->pipe == 1 || tmp->red != NULL)
 		{
+			tmp = pipework(data, tmp);
 			// printf("jfksdjksafdhj\n");
-			pipework(data, tmp);
 			while (tmp && tmp->pipe == 1)
 				tmp = tmp->next;
 		}
+		// printf("11111111111\n");
 		tmp = tmp->next;
 		// while (tmp && tmp->pipe == 1)
 		// 	tmp = tmp->next;
@@ -321,40 +325,40 @@ void    plug(t_data *data)
 
 	info_add_back(&data->info, info_new());
 	tmp = data->info;
-	data->info->command = "env";
+	data->info->command = "cat";
 	data->info->count_command = 0;
-	data->info->arg = ft_split("env", ' ');
+	data->info->arg = ft_split("cat", ' ');
 	data->info->flag = 0;
 	data->info->red = NULL;
-	data->info->semocolon = 1;
-	data->info->pipe = 0;
+	data->info->semocolon = 0;
+	data->info->pipe = 1;
 	info_add_back(&data->info, info_new());
 	tmp = tmp->next;
-	tmp->command = "ls";
+	tmp->command = "cat";
 	tmp->count_command = 1;
-	tmp->arg = ft_split("ls", ' ');
+	tmp->arg = ft_split("cat -e", ' ');
 	tmp->flag = 0;
 	tmp->red = NULL;
 	tmp->pipe = 0;
 	tmp->semocolon = 0;
 	// info_add_back(&data->info, info_new());
 	// tmp = tmp->next;
-	// tmp->command = "ls";
+	// tmp->command = "cat";
 	// tmp->count_command = 2;
-	// tmp->arg = NULL;
+	// tmp->arg = ft_split("cat -e", ' ');
 	// tmp->flag = 0;
-	// tmp->red = ft_split("1 1", ' ');
+	// tmp->red = NULL;
+	// tmp->pipe = 0;
+	// tmp->semocolon = 1;
+	// info_add_back(&data->info, info_new());
+	// tmp = tmp->next;
+	// tmp->command = "ls";
+	// tmp->count_command = 3;
+	// tmp->arg = ft_split("ls", ' ');;
+	// tmp->flag = 0;
+	// tmp->red = ft_split("1 32", ' ');
 	// tmp->pipe = 0;
 	// tmp->semocolon = 0;
-// 	info_add_back(&data->info, info_new());
-// 	tmp = tmp->next;
-// 	tmp->command = "ls";
-// 	tmp->count_command = 3;
-// 	tmp->arg = NULL;
-// 	tmp->flag = 0;
-// 	tmp->red = ft_split("1 32", ' ');
-// 	tmp->pipe = 0;
-// 	tmp->semocolon = 0;
 }
 
 int main(int argc, char **argv, char **envp)
@@ -370,7 +374,8 @@ int main(int argc, char **argv, char **envp)
 	// printf("%s\n", str);
 	// free(str);
 	plug(&data);
-	info_print_content(&data.info);
+	// info_print_content(&data.info);
+	// printf("jfksdjksafdhj\n");
 	init_pid(&data);
 	exec(&data);
 	wait_pid(&data);

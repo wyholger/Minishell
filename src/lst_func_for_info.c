@@ -67,7 +67,7 @@ int	info_print_content(t_info **lst)
 	i = 0;
 	j = 0;
 	iter = *lst;
-	while (iter)
+	while (iter != NULL)
 	{
 		printf("# %d:\n", iter->count_command);
 		printf("cmd: %7s; arg: ", iter->command);
