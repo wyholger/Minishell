@@ -38,6 +38,7 @@ typedef struct s_info
 typedef struct s_data
 {
 	char	**envp;
+    t_list  *env;
 	char	*str;
 	int		exit_proc_number;
 	t_list	*token;
@@ -47,7 +48,10 @@ typedef struct s_data
 	int		status;
 	int		std_in;
 	int		std_out;
-	
+    char    *pwd_start;
+    char    *pwd_now;
+    char    *pwd_home;
+    char    *pwd_old;
 }              t_data;
 
 
@@ -70,4 +74,5 @@ int		open_file(t_data *data, char *argv, int i);
 void	exec_build_cmd(t_data *data, t_info *tmp, int filein);
 int		check_on_bild_cmd(t_info *tmp);
 int		search_num_line_in_envp(t_data *data, char *str);
+t_list	*search_token_in_envp(t_data *data, char *str);
 #endif

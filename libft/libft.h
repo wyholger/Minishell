@@ -6,7 +6,7 @@
 /*   By: wyholger <wyholger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 18:07:43 by wyholger          #+#    #+#             */
-/*   Updated: 2021/10/18 17:40:20 by wyholger         ###   ########.fr       */
+/*   Updated: 2022/01/08 21:08:11 by wyholger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	ft_lstadd_front(t_list **lst, t_list *new);
 int		ft_lstsize(t_list *lst);
 t_list	*ft_lstlast(t_list *lst);
 void	ft_lstadd_back(t_list **lst, t_list *new);
-void	ft_lstdelone(t_list *lst, void (*del)(char *));
+void	ft_lstdelone(t_list **lst);
 int		ft_lstclear(t_list **lst);
 void	ft_lstiter(t_list *lst, void (*f)(char *));
 int		ft_atoi_base(char *str, int str_base);
