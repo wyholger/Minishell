@@ -42,8 +42,9 @@ void	ft_init_struct(t_data *data, char **envp)
 	data->std_out = dup(STDOUT_FILENO);
 	data->pwd_start = search_in_envp(data, "PWD");
 	data->pwd_now = search_in_envp(data, "PWD");
-	data->pwd_old = search_in_envp(data, "PWD");
+	data->pwd_old = ft_strdup("");
 	data->pwd_home = search_in_envp(data, "HOME");
+	printf("%s\n", data->pwd_now);
 }
 
 int	check_on_bild_cmd(t_info *tmp)
@@ -122,7 +123,7 @@ void	env(t_data *data, t_info *tmp, int filein)
 	// line = NULL;
 	// if (tmp->arg[1] == NULL)
 	// {
-	while (tmp_env)
+	while (tmp_env != NULL)
 	{
 		ft_putstr_fd(tmp_env->word, filein);
 		ft_putchar_fd('\n', filein);
@@ -163,20 +164,36 @@ void	cd(t_data *data, t_info *tmp, int filein)
 	(void)filein;
 	if (chdir(tmp->arg[1]) == 0)
 	{
+		free(data->pwd_old);
+		data->pwd_old = ft_strdup(data->pwd_now);
 		free(data->pwd_now);
 		data->pwd_now = getcwd(NULL, 0);
 		tmp_env = search_token_in_envp(data, "PWD");
 
 		// line = search_num_line_in_envp(data, "PWD");
-		if (tmp_env == NULL)
-		{
-			ft_lstadd_back(&data->env, ft_lstnew(ft_strjoin("PWD=", data->pwd_now)));
-		}
-		else
+		if (tmp_env != NULL)
 		{
 			ft_lstdelone(&tmp_env);
 			ft_lstadd_back(&data->env, ft_lstnew(ft_strjoin("PWD=", data->pwd_now)));
 		}
+		tmp_env = NULL;
+		tmp_env = search_token_in_envp(data, "OLDPWD");
+		if (tmp_env == NULL)
+		{
+			ft_lstadd_back(&data->env, ft_lstnew(ft_strjoin("OLDPWD=", data->pwd_old)));
+		}
+		if (tmp_env != NULL)
+		{
+			ft_lstdelone(&tmp_env);
+			ft_lstadd_back(&data->env, ft_lstnew(ft_strjoin("OLDPWD=", data->pwd_old)));
+		}
+
+		// else
+		// {
+		// 	ft_lstadd_back(&data->env, ft_lstnew(ft_strjoin("PWD=", data->pwd_now)));
+		// }
+
+		
 		// if (tmp->arg[1][0] == '/' || tmp->arg[1][0] == '~')
 		// {
 		// 	free(data->pwd_now);
@@ -196,6 +213,66 @@ void	cd(t_data *data, t_info *tmp, int filein)
 		ft_putstr_fd("minishell: cd: ", 2);
 		ft_putstr_fd(tmp->arg[1], 2);
 		ft_putstr_fd(": No such file or directory\n", 2);
+		data->exit_proc_number = 1;
+	}
+}
+
+void	export(t_data *data, t_info *tmp)
+{
+	char	**for_split;
+	t_list	*tmp_env;
+
+
+	if (tmp->arg[1] != NULL)
+	{
+		if (ft_isalpha(tmp->arg[1][0]) == 1 || tmp->arg[1][0] == '_')
+		{
+			for_split = ft_split(tmp->arg[1], '=');
+			tmp_env = search_token_in_envp(data, for_split[0]);
+			if (tmp_env == NULL)
+			{
+				ft_lstadd_back(&data->env, ft_lstnew(ft_strdup(tmp->arg[1])));
+			}
+			else
+			{
+				ft_lstdelone(&tmp_env);
+				ft_lstadd_back(&data->env, ft_lstnew(ft_strdup(tmp->arg[1])));
+			}
+			split_free(for_split);
+		}
+		else
+		{
+			ft_putstr_fd("minishell: export: ", 2);
+			ft_putstr_fd(tmp->arg[1], 2);
+			ft_putstr_fd(": not a valid identifier\n", 2);
+			data->exit_proc_number = 1;
+		}
+	}
+}
+
+void	unset(t_data *data, t_info *tmp)
+{
+	char	**for_split;
+	t_list	*tmp_env;
+
+
+	if (tmp->arg[1] != NULL)
+	{
+		if (ft_isalpha(tmp->arg[1][0]) == 1 || tmp->arg[1][0] == '_')
+		{
+			for_split = ft_split(tmp->arg[1], '=');
+			tmp_env = search_token_in_envp(data, for_split[0]);
+			if (tmp_env != NULL)
+				ft_lstdelone(&tmp_env);
+			split_free(for_split);
+		}
+		else
+		{
+			ft_putstr_fd("minishell: unset: ", 2);
+			ft_putstr_fd(tmp->arg[1], 2);
+			ft_putstr_fd(": not a valid identifier\n", 2);
+			data->exit_proc_number = 1;
+		}
 	}
 }
 
@@ -207,10 +284,10 @@ void	exec_build_cmd(t_data *data, t_info *tmp, int filein)
 		cd(data, tmp, filein);
 	if (ft_strcmp("pwd", tmp->command) == 0)
 		pwd(data, tmp, filein);
-	// if (ft_strcmp("export", tmp->command) == 0)
-	// 	return (1);
-	// if (ft_strcmp("unset", tmp->command) == 0)
-	// 	return (1);
+	if (ft_strcmp("export", tmp->command) == 0)
+		export(data, tmp);
+	if (ft_strcmp("unset", tmp->command) == 0)
+		unset(data, tmp);
 	if (ft_strcmp("env", tmp->command) == 0)
 		env(data, tmp, filein);
 	// if (ft_strcmp("exit", tmp->command) == 0)
@@ -372,7 +449,10 @@ void	exec(t_data *data)
 	while (tmp != NULL)
 	{
 		if (check_on_bild_cmd(tmp) == 1 && tmp->pipe == 0 && tmp->red == NULL)
+		{
+
 			exec_build_cmd(data, tmp, 1);
+		}
 		else if (tmp->pipe == 0 && tmp->red == NULL)
 		{
 			// printf("HHHHHHHHHH\n");
@@ -416,16 +496,25 @@ void    plug(t_data *data)
 	tmp = data->info;
 	data->info->command = "env";
 	data->info->count_command = 0;
-	data->info->arg = ft_split("env PWD", ' ');
+	data->info->arg = ft_split("env", ' ');
 	data->info->flag = 0;
 	data->info->red = NULL;
-	data->info->semocolon = 1;
-	data->info->pipe = 0;
+	data->info->semocolon = 0;
+	data->info->pipe = 1;
 	info_add_back(&data->info, info_new());
 	tmp = tmp->next;
-	tmp->command = "cd";
-	tmp->count_command = 3;
-	tmp->arg = ft_split("cd /../../..", ' ');;
+	tmp->command = "grep";
+	tmp->count_command = 1;
+	tmp->arg = ft_split("grep HOME", ' ');
+	tmp->flag = 0;
+	tmp->red = NULL;
+	tmp->pipe = 0;
+	tmp->semocolon = 1;
+	info_add_back(&data->info, info_new());
+	tmp = tmp->next;
+	tmp->command = "unset";
+	tmp->count_command = 2;
+	tmp->arg = ft_split("unset HOME", ' ');
 	tmp->flag = 0;
 	tmp->red = NULL;
 	tmp->pipe = 0;
@@ -434,11 +523,32 @@ void    plug(t_data *data)
 	tmp = tmp->next;
 	tmp->command = "env";
 	tmp->count_command = 3;
-	tmp->arg = ft_split("env PWD", ' ');
+	tmp->arg = ft_split("env", ' ');
+	tmp->flag = 0;
+	tmp->red = NULL;
+	tmp->pipe = 1;
+	tmp->semocolon = 0;
+	info_add_back(&data->info, info_new());
+	tmp = tmp->next;
+	tmp->command = "grep";
+	tmp->count_command = 3;
+	tmp->arg = ft_split("grep HOME", ' ');
 	tmp->flag = 0;
 	tmp->red = NULL;
 	tmp->pipe = 0;
 	tmp->semocolon = 1;
+
+
+
+	// info_add_back(&data->info, info_new());
+	// tmp = tmp->next;
+	// tmp->command = "env";
+	// tmp->count_command = 3;
+	// tmp->arg = ft_split("env", ' ');
+	// tmp->flag = 0;
+	// tmp->red = NULL;
+	// tmp->pipe = 0;
+	// tmp->semocolon = 1;
 	// info_add_back(&data->info, info_new());
 	// tmp = tmp->next;
 	// tmp->command = "pwd";

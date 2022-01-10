@@ -16,7 +16,7 @@ t_list	*search_token_in_envp(t_data *data, char *str)
 	tmp = data->env;
 	while (tmp)
 	{
-		for_split = ft_split(data->env->word, '=');
+		for_split = ft_split(tmp->word, '=');
 		if (ft_strcmp(for_split[0], str) == 0)
 		{
 			split_free(for_split);
@@ -39,7 +39,7 @@ char *search_in_envp(t_data *data, char *str)
 	tmp = data->env;
 	while (tmp)
 	{
-		for_split = ft_split(data->env->word, '=');
+		for_split = ft_split(tmp->word, '=');
 		if (ft_strcmp(for_split[0], str) == 0)
 		{
 			result = ft_strcpy(for_split[1]);

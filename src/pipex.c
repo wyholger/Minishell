@@ -93,6 +93,7 @@ t_info	*pipework(t_data *data, t_info *info)
 	t_info	*tmp;
 	int		filein;
 	int		fileout;
+	int     pid;
 
 	tmp = info;
 	filein = 1;
@@ -103,6 +104,7 @@ t_info	*pipework(t_data *data, t_info *info)
 	}
 	while (tmp && tmp->pipe == 1)
 	{
+		// printf("22222_PPPPPPPPPPPPPPPPP\n");
 		child_process(data, tmp);
 		tmp = tmp->next;
 	}
@@ -110,7 +112,7 @@ t_info	*pipework(t_data *data, t_info *info)
 	{
 		filein = init_redirect_file(data, tmp);
 		dup2(filein, STDOUT_FILENO);
-		ft_putstr_fd("AAAAAA\n", filein);
+		// ft_putstr_fd("AAAAAA\n", filein);
 	}
 	else
 		dup2(1, STDOUT_FILENO);
@@ -124,7 +126,12 @@ t_info	*pipework(t_data *data, t_info *info)
 		// exit(data->exit_proc_number);
 	}
 	else
-		exec_bin(data, tmp);
+	{
+		pid = fork();
+		if (pid == 0)
+			exec_bin(data, tmp);
+	}
+	// printf("33333_PPPPPPPPPPPPPPPPP\n");
 	dup2(data->std_out, STDOUT_FILENO);
 	return (tmp);
 	// close(filein);
