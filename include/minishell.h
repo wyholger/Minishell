@@ -9,6 +9,7 @@
 # include <signal.h>
 # include <sys/wait.h>
 # include <readline/readline.h>
+# include <readline/history.h>
 # include "../libft/libft.h"
 # include <errno.h>
 # include <termios.h>
@@ -55,7 +56,7 @@ typedef struct s_data
 }              t_data;
 
 
-
+void ft_parser(t_data *data);
 void	split_free(char **str);
 char	*search_in_envp(t_data *data, char *str);
 /*

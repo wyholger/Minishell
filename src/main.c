@@ -512,6 +512,7 @@ void    plug(t_data *data)
 	// tmp->semocolon = 0;
 }
 
+
 int main(int argc, char **argv, char **envp)
 {
 	(void)argc;
@@ -524,19 +525,22 @@ int main(int argc, char **argv, char **envp)
 	// str = search_in_envp(&data, "PATH");
 	// printf("%s\n", str);
 	// free(str);
-	plug(&data);
-	// info_print_content(&data.info);
-	// printf("jfksdjksafdhj\n");
-	init_pid(&data);
-	exec(&data);
-	wait_pid(&data);
+//	plug(&data);
+//	// info_print_content(&data.info);
+//	// printf("jfksdjksafdhj\n");
+//	init_pid(&data);
+//	exec(&data);
+//	wait_pid(&data);
 	
 	// while (data.status != 0)
 	// {
-	// 	data.str = readline(MINISHELL_MSG);
+	 	data.str = readline(MINISHELL_MSG);
 	// 	split_str(&data);
 	// 	//ft_parser
 	// 	free(data.str);
 	// }
 	//free struct
+    
+    //Test
+    ft_parser(&data);
 }

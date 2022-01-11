@@ -2,31 +2,6 @@
 
 
 
-
-
-
-
-
-
-//void ft_init_struct_info(t_info *info)
-//{
-//    //info->command = NULL;
-//    //info->arg = NULL;
-//    //info->flag = NULL;
-//    //info->info = NULL;
-//    //info->pipe = 0;
-//}
-
-void ft_init_struct_data(t_data *data, char **envp)
-{
-	data->envp = envp;
-	data->exit_proc_number = 0;
-	//data->str = str;
-	data->token = NULL;
-	data->info = NULL;
-
-}
-
 int ft_cansel_quote(t_data *data, int *i)
 {
 	int j;
@@ -273,7 +248,7 @@ int ft_tok_dollar(t_list *token, int *i, t_data *data)
 	
 	k = 0;
 	j = *i + 1;
-	while (token->word[j] != '\0' && token->word[j] != '\\' && token->word[j] != '\'' && token->word[j] != '\"' && token->word[j] != '$' )
+	while (token->word[j] != '\0' && token->word[j] != '\'' && token->word[j] != '\"')
 		j++;
 	tmp = malloc(sizeof(char) * (j - *i));
 	if (!tmp)
@@ -295,35 +270,6 @@ int ft_tok_dollar(t_list *token, int *i, t_data *data)
 	
 	return (0);
 }
-
-
-int ft_tok_slash(t_list *token, int *i)
-{
-	int j;
-	int h;
-	char *tmp;
-
-	j = 0;
-	h = 0;
-	tmp = malloc(sizeof(char) * ft_strlen(token->word));
-	if (!tmp)
-		return (1);
-	if (!token->word[(*i) +1])
-		return(1);
-	while (token->word[j])
-	{
-		if (j == (*i))
-			j++;
-		tmp[h] = token->word[j];
-		h++;
-		j++;
-	}
-	tmp[h] = '\0';
-	free(token->word);
-	token->word = tmp;
-	return (0);
-}
-
 
 int ft_tok_quo(t_list *token, int *i)
 {
@@ -355,6 +301,9 @@ int ft_tok_quo(t_list *token, int *i)
 	return (0);
 }
 
+
+
+
 void ft_token_word(t_list *token, t_data *data)
 {
 	int i;
@@ -366,12 +315,12 @@ void ft_token_word(t_list *token, t_data *data)
 	
 	while (token->word[i])
 	{
+//        if (token->word[0] == '~')
+//            check = ft_tilda(token, &i);
 		if (token->word[i] == '\'')
-		 check = ft_tok_quo(token,  &i);
+            check = ft_tok_quo(token,  &i);
 		//if (token->word[i] == '\"')
 		 //check = ft_tok_dquo(token,  &i);
-		if (token->word[i] == '\\')
-		 check = ft_tok_slash(token,  &i);
 		if (token->word[i] == '$')
 		 check = ft_tok_dollar(token,  &i, data);
 		i++;
@@ -379,6 +328,7 @@ void ft_token_word(t_list *token, t_data *data)
 	data->breakpoint = 0;
 }
 
+// ~
 void ft_treatmen_token(t_data *data)
 {
 	printf("Check\n");
@@ -388,8 +338,6 @@ void ft_treatmen_token(t_data *data)
 	
 	while (tmp != NULL)
 	{
-			if (tmp->word[0] == ';')
-				tmp->value = 'S';
 			if (tmp->word[0] == '|')
 				tmp->value = 'P';
 			else
@@ -469,28 +417,6 @@ t_list *ft_token_pipe(t_data *data, int *i)
 	return (ft_lstnew(new_token->word));
 }
 
-t_list *ft_token_semocolon(t_data *data, int *i)
-{
-	int k;
-	int j;
-	t_list *new_token;
-	
-	j  = 0;
-	k = data->breakpoint;
-	new_token = malloc(sizeof(t_list));
-	new_token->word = malloc(sizeof(char) * (*i - k) + 1);
-	if(!new_token->word || !new_token)
-		return(NULL);
-	while (k != (*i))
-	{
-		new_token->word[j] = data->str[k];
-		k++;
-		j++;
-	}
-	new_token->word[j] = '\0';
-	data->breakpoint = *i;
-	return (ft_lstnew(new_token->word));
-}
 
 t_list *ft_token_spec(t_data *data, int *i)
 {
@@ -530,11 +456,6 @@ void ft_pars_token(t_data *data)
 			ft_lstadd_back(&data->token, ft_token_space(data, &i));
 			continue ;
 		}
-		if (data->str[i] == ';')
-		{
-			ft_lstadd_back(&data->token, ft_token_semocolon(data, &i));
-			ft_lstadd_back(&data->token, ft_token_spec(data, &i));
-		}
 		if (data->str[i] == '|')
 		{
 			ft_lstadd_back(&data->token, ft_token_pipe(data, &i));
@@ -546,12 +467,11 @@ void ft_pars_token(t_data *data)
 }
 
 
-void ft_parser(t_data *data, char **envp)
+void ft_parser(t_data *data)
 {
 	int check;
 	
 	check = 0;
-	ft_init_struct_data(data, envp);
 	printf("%s\n", data->str);
 	check = ft_check_all_string(data);
 	if (check == 0)
@@ -571,13 +491,3 @@ void ft_parser(t_data *data, char **envp)
 }
 
 
-int main(int argc, char **argv, char **envp)
-{
-	(void)argc;
-	(void)argv;
-	t_data data;
-	
-	data.str = "H'el  lo W>e'  Test$USERing$USER r$USER|r<  $? $USER  'dd>y'  ;     World ";
-	ft_parser(&data, envp);
-	
-}
