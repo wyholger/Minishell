@@ -1,15 +1,5 @@
 #include "../include/minishell.h"
 
-// int	init_fileout(t_data *data, t_info *info)
-// {
-
-// }
-
-// int	init_filein(t_data *data, t_info *info)
-// {
-
-// }
-
 void	child_process(t_data *data, t_info *info)
 {
 	pid_t	pid;
@@ -19,17 +9,12 @@ void	child_process(t_data *data, t_info *info)
 	if (pipe(fd) == -1)
 	{
 		printf("PIPE ERROR\n");
-		exit (0);
+		exit (1);
 	}
 	pid = fork();
 	if (pid == 0)
 	{
 		close(fd[0]);
-		// write (fd[0], info->arg, ft_strlen(info->arg));
-		// printf("BLAAAAAAAAA %d\n", fd[0]);
-		// write(1, "Y\n", 2);
-		// printf("BLAAAAAAAAA %d\n", deskr);
-		// if (info->pipe == 1)
 		deskr = dup2(fd[1], STDOUT_FILENO);
 		if (check_on_bild_cmd(info) == 1)
 		{
@@ -38,13 +23,11 @@ void	child_process(t_data *data, t_info *info)
 		}
 		else
 			exec_bin(data, info);
-		// exit (data->exit_proc_number);
 	}
 	else
 	{
 		close(fd[1]);
 		dup2(fd[0], STDIN_FILENO);
-		// waitpid(pid, NULL, 0);
 	}
 }
 
@@ -104,7 +87,6 @@ t_info	*pipework(t_data *data, t_info *info)
 	}
 	while (tmp && tmp->pipe == 1)
 	{
-		// printf("22222_PPPPPPPPPPPPPPPPP\n");
 		child_process(data, tmp);
 		tmp = tmp->next;
 	}
@@ -112,7 +94,6 @@ t_info	*pipework(t_data *data, t_info *info)
 	{
 		filein = init_redirect_file(data, tmp);
 		dup2(filein, STDOUT_FILENO);
-		// ft_putstr_fd("AAAAAA\n", filein);
 	}
 	else
 		dup2(1, STDOUT_FILENO);
@@ -128,10 +109,10 @@ t_info	*pipework(t_data *data, t_info *info)
 	else
 	{
 		pid = fork();
+        add_pid(data, pid);
 		if (pid == 0)
 			exec_bin(data, tmp);
 	}
-	// printf("33333_PPPPPPPPPPPPPPPPP\n");
 	dup2(data->std_out, STDOUT_FILENO);
 	return (tmp);
 	// close(filein);

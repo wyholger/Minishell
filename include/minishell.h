@@ -75,4 +75,5 @@ void	exec_build_cmd(t_data *data, t_info *tmp, int filein);
 int		check_on_bild_cmd(t_info *tmp);
 int		search_num_line_in_envp(t_data *data, char *str);
 t_list	*search_token_in_envp(t_data *data, char *str);
+void	add_pid(t_data *data, pid_t pid);
 #endif

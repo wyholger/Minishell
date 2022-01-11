@@ -6,7 +6,7 @@
 /*   By: wyholger <wyholger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 17:59:37 by wyholger          #+#    #+#             */
-/*   Updated: 2022/01/10 10:52:23 by wyholger         ###   ########.fr       */
+/*   Updated: 2022/01/11 15:07:57 by wyholger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	ft_lstdelone(t_list **lst)
 		return ;
 	tmp->prev->next = tmp->next;
 	tmp->next->prev = tmp->prev;
-	printf ("WOOOOOOOOOOOOOOOOOOOOOOOORD %s\n", tmp->word);
 	free(tmp->word);
 	tmp->next = NULL;
 	tmp->prev = NULL;

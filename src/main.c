@@ -77,10 +77,6 @@ void	echo(t_data *data, t_info *tmp, int filein)
 
 	i = 1;
 	(void)data;
-
-	// printf("BBBBB\n");
-	// printf("%s\n", tmp->arg[i]);
-	// ft_putstr_fd(tmp->arg[i], filein);
 	if (tmp->arg != NULL && ft_strcmp(tmp->arg[1], "$?") == 0)
 	{
 		ft_putnbr_fd(data->exit_proc_number, filein);
@@ -117,12 +113,9 @@ void	pwd(t_data *data, t_info *tmp, int filein)
 void	env(t_data *data, t_info *tmp, int filein)
 {
 	t_list *tmp_env;
-	// char *line;
+
 	(void)tmp;
 	tmp_env = data->env;
-	// line = NULL;
-	// if (tmp->arg[1] == NULL)
-	// {
 	while (tmp_env != NULL)
 	{
 		ft_putstr_fd(tmp_env->word, filein);
@@ -130,47 +123,42 @@ void	env(t_data *data, t_info *tmp, int filein)
 		tmp_env = tmp_env->next;
 	}
 	data->exit_proc_number = 0;
-	// }
-	// else
-	// {
-	// 	line = search_in_envp(data, tmp->arg[1]);
-	// 	if (line != NULL)
-	// 	{
-	// 		ft_putstr_fd(line, filein);
-	// 		ft_putstr_fd("\n", filein);
-	// 		data->exit_proc_number = 0;
-	// 	}
-	// 	else
-	// 	{
-	// 		ft_putstr_fd("env: ", 2);
-	// 		ft_putstr_fd(tmp->arg[1], 2);
-	// 		ft_putstr_fd(": No such file or directory\n", 2);
-	// 		data->exit_proc_number = 127;
-	// 	}
-		
-	// }
 }
 
 void	cd(t_data *data, t_info *tmp, int filein)
 {
 	t_list	*tmp_env;
-	int	i;
+	int		flag_old_pwd;
 
-	i = 0;
-	// printf("%s\n", tmp->arg[1]);
+	flag_old_pwd = 0;
 	if (tmp->arg[1] == NULL)
 		tmp->arg[1] = ft_strdup(data->pwd_home);
-	// chdir(tmp->arg[1]);
-	(void)filein;
+	if (ft_strcmp (tmp->arg[1], "-") == 0)
+	{
+		if (ft_strcmp (data->pwd_old, "") == 0)
+		{
+			ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2);
+			data->exit_proc_number = 1;
+			return ;
+		}
+		else
+		{
+			tmp->arg[1] = ft_strdup(data->pwd_old);
+			flag_old_pwd = 1;
+		}
+	}
 	if (chdir(tmp->arg[1]) == 0)
 	{
+		if (flag_old_pwd == 1)
+		{
+			ft_putstr_fd (data->pwd_old, filein);
+			ft_putchar_fd ('\n', filein);
+		}
 		free(data->pwd_old);
 		data->pwd_old = ft_strdup(data->pwd_now);
 		free(data->pwd_now);
 		data->pwd_now = getcwd(NULL, 0);
 		tmp_env = search_token_in_envp(data, "PWD");
-
-		// line = search_num_line_in_envp(data, "PWD");
 		if (tmp_env != NULL)
 		{
 			ft_lstdelone(&tmp_env);
@@ -187,26 +175,7 @@ void	cd(t_data *data, t_info *tmp, int filein)
 			ft_lstdelone(&tmp_env);
 			ft_lstadd_back(&data->env, ft_lstnew(ft_strjoin("OLDPWD=", data->pwd_old)));
 		}
-
-		// else
-		// {
-		// 	ft_lstadd_back(&data->env, ft_lstnew(ft_strjoin("PWD=", data->pwd_now)));
-		// }
-
-		
-		// if (tmp->arg[1][0] == '/' || tmp->arg[1][0] == '~')
-		// {
-		// 	free(data->pwd_now);
-		// 	if (tmp->arg[1][0] == '~')
-		// 		data->pwd_now = ft_strdup(data->pwd_home);
-		// 	if (tmp->arg[1][0] == '/')
-		// 		data->pwd_now = ft_strdup(tmp->arg[1]);
-		// }
-		// else
-		// {
-		// 	free(data->pwd_now);
-		// 	if ()
-		// }
+		data->exit_proc_number = 0;
 	}
 	else
 	{
@@ -302,7 +271,7 @@ void	init_pid(t_data *data)
 	i = 0;
 	data->pid = malloc(sizeof(pid_t) * (info_size(data->info) + 1));
 	if (!data->pid)
-		exit (0); //add if 
+		exit (0);
 	while (i <= info_size(data->info))
 	{
 		data->pid[i] = -1;
@@ -317,7 +286,6 @@ void	wait_pid(t_data *data)
 	i = 0;
 	while (data->pid[i] != -1)
 	{
-//		printf("YYYYYYYYYYYYYYYYYYYYYYYYYYYYY\n");
 		if (waitpid(data->pid[i], &data->exit_proc_number, 0) == -1) {
 			return (perror("WAIT_PID"));
 		}
@@ -345,17 +313,9 @@ void	add_pid(t_data *data, pid_t pid)
 	{
 		i++;
 	}
-	data->pid[i] = pid;
+	if (pid != 0)
+		data->pid[i] = pid;
 }
-
-// void	init_pipe_redir(t_data *data, t_info *info)
-// {
-// 	if (info->prev != NULL && info->prev->pipe == 1)
-// 	{
-	
-// 	}
-// }
-
 
 void	serch_bin(t_data *data, t_info *info)
 {
@@ -412,17 +372,6 @@ void	serch_bin(t_data *data, t_info *info)
 
 void	exec_bin(t_data *data, t_info *info)
 {
-	// int fd;
-
-	// if (ft_strcmp(info->red[0], "1"))
-	// {
-	// 	fd = open(info->red[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	// 	if (fd == -1)
-	// 	{
-	// 		data->exit_proc_number = E_FILE_OPEN;
-			
-	// 	}
-	// }
 	serch_bin(data, info);
 	exit (data->exit_proc_number);
 }
@@ -434,109 +383,84 @@ void	exec(t_data *data)
 
 	tmp = data->info;
 	printf("size info %d\n", info_size(tmp));
-
-
-
-
-	// char *path = search_in_envp(data, "PWD");
-	// chdir("src");
-
-	// data->envp[search_num_line_in_envp(data, "PWD")] = "PWD=/Users/wyholger";
-	
-	
-	
-	
 	while (tmp != NULL)
 	{
 		if (check_on_bild_cmd(tmp) == 1 && tmp->pipe == 0 && tmp->red == NULL)
 		{
-
 			exec_build_cmd(data, tmp, 1);
 		}
 		else if (tmp->pipe == 0 && tmp->red == NULL)
 		{
-			// printf("HHHHHHHHHH\n");
 			pid = fork();
 			if (pid == -1) {
 				return ;
 			}
-			// else if (pid == 0) 
-			// {
-			// 	signal(SIGINT, child_signal_handler);
-			// }
 			add_pid(data, pid);
-//			printf("PIDS %d, %d\n", data->pid[0], data->pid[1]);
-//			printf("BLAH\n");
 			if (pid == 0)
 			{
-				// printf("HHHHHHHHHH\n");
-				// init_pipe_redir(data, tmp);
 				exec_bin(data, tmp);
 			}
 		}
 		else if (tmp->pipe == 1 || tmp->red != NULL)
 		{
 			tmp = pipework(data, tmp);
-			// printf("jfksdjksafdhj\n");
 			while (tmp && tmp->pipe == 1)
 				tmp = tmp->next;
 		}
-		// printf("11111111111\n");
 		tmp = tmp->next;
-		// while (tmp && tmp->pipe == 1)
-		// 	tmp = tmp->next;
 	}
 }
-
+// echo -nnnnnnnn hi
+// echo asdsdasdas | pwd
 void    plug(t_data *data)
 {
 	t_info *tmp;
 
 	info_add_back(&data->info, info_new());
 	tmp = data->info;
-	data->info->command = "env";
+	data->info->command = "echo";
 	data->info->count_command = 0;
-	data->info->arg = ft_split("env", ' ');
+	data->info->arg = ft_split("echo asdfsadf", ' ');
 	data->info->flag = 0;
 	data->info->red = NULL;
 	data->info->semocolon = 0;
 	data->info->pipe = 1;
 	info_add_back(&data->info, info_new());
 	tmp = tmp->next;
-	tmp->command = "grep";
+	tmp->command = "cat";
 	tmp->count_command = 1;
-	tmp->arg = ft_split("grep HOME", ' ');
+	tmp->arg = ft_split("cat -e", ' ');
 	tmp->flag = 0;
 	tmp->red = NULL;
 	tmp->pipe = 0;
-	tmp->semocolon = 1;
-	info_add_back(&data->info, info_new());
-	tmp = tmp->next;
-	tmp->command = "unset";
-	tmp->count_command = 2;
-	tmp->arg = ft_split("unset HOME", ' ');
-	tmp->flag = 0;
-	tmp->red = NULL;
-	tmp->pipe = 0;
-	tmp->semocolon = 1;
-	info_add_back(&data->info, info_new());
-	tmp = tmp->next;
-	tmp->command = "env";
-	tmp->count_command = 3;
-	tmp->arg = ft_split("env", ' ');
-	tmp->flag = 0;
-	tmp->red = NULL;
-	tmp->pipe = 1;
 	tmp->semocolon = 0;
 	info_add_back(&data->info, info_new());
 	tmp = tmp->next;
-	tmp->command = "grep";
-	tmp->count_command = 3;
-	tmp->arg = ft_split("grep HOME", ' ');
+	tmp->command = "pwd";
+	tmp->count_command = 2;
+	tmp->arg = ft_split("pwd", ' ');
 	tmp->flag = 0;
 	tmp->red = NULL;
 	tmp->pipe = 0;
-	tmp->semocolon = 1;
+	tmp->semocolon = 0;
+	// info_add_back(&data->info, info_new());
+	// tmp = tmp->next;
+	// tmp->command = "cd";
+	// tmp->count_command = 3;
+	// tmp->arg = ft_split("cd -", ' ');
+	// tmp->flag = 0;
+	// tmp->red = NULL;
+	// tmp->pipe = 0;
+	// tmp->semocolon = 0;
+	// info_add_back(&data->info, info_new());
+	// tmp = tmp->next;
+	// tmp->command = "grep";
+	// tmp->count_command = 3;
+	// tmp->arg = ft_split("grep HOME", ' ');
+	// tmp->flag = 0;
+	// tmp->red = NULL;
+	// tmp->pipe = 0;
+	// tmp->semocolon = 1;
 
 
 
