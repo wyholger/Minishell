@@ -47,6 +47,63 @@ void	ft_init_struct(t_data *data, char **envp)
 	printf("%s\n", data->pwd_now);
 }
 
+void increment_shell_in_env(t_data *data)
+{
+	t_list *tmp_env;
+	int		lvl;
+	char	**for_split;
+
+	tmp_env = search_token_in_envp(data, "SHLVL");
+	if (tmp_env != NULL)
+	{
+		for_split = ft_split(tmp_env->word, "=");
+		lvl = ft_atoi(for_split[1]);
+		lvl++;
+		split_free(for_split);
+		ft_lstdelone(tmp_env);
+		ft_lstadd_back(data->env, ft_lstnew(ft_strjoin("SHLVL=", ft_itoa(lvl))));
+	}
+}
+
+void decrement_shell_in_env(t_data *data)
+{
+	t_list	*tmp_env;
+	int		lvl;
+	char	**for_split;
+
+	tmp_env = search_token_in_envp(data, "SHLVL");
+	if (tmp_env != NULL)
+	{
+		for_split = ft_split(tmp_env->word, "=");
+		lvl = ft_atoi(for_split[1]);
+		if (lvl > 1)
+			lvl--;
+		split_free(for_split);
+		ft_lstdelone(tmp_env);
+		ft_lstadd_back(data->env, ft_lstnew(ft_strjoin("SHLVL=", ft_itoa(lvl))));
+	}
+}
+
+char **env_list_to_map(t_data *data)
+{
+	t_list *tmp_env;
+	char **envp;
+	int len;
+	int i;
+
+	i = 0;
+	tmp_env = data->env;
+	len = ft_lstsize(data->env);
+	envp = (char **)malloc(sizeof(char *) * len + 1);
+	while (i < len)
+	{
+		envp[i] = ft_strdup(tmp_env->word);
+		i++;
+		tmp_env = tmp_env->next;
+	}
+	return (envp);
+}
+
 int	check_on_bild_cmd(t_info *tmp)
 {
 	if (ft_strcmp("echo", tmp->command) == 0)
@@ -62,6 +119,8 @@ int	check_on_bild_cmd(t_info *tmp)
 	if (ft_strcmp("env", tmp->command) == 0)
 		return (1);	
 	if (ft_strcmp("exit", tmp->command) == 0)
+		return (1);
+	if (ft_strcmp("./minishell", tmp->command) == 0)
 		return (1);
 	return (0);
 }
@@ -245,6 +304,16 @@ void	unset(t_data *data, t_info *tmp)
 	}
 }
 
+void	tor_minishell(t_data *data, t_info *tmp)
+{
+	char **env;
+
+	increment_shell_in_env(data);
+	env = env_list_to_map(data);
+	decrement_shell_in_env(data);
+	
+}
+
 void	exec_build_cmd(t_data *data, t_info *tmp, int filein)
 {
 	if (ft_strcmp("echo", tmp->command) == 0)
@@ -261,6 +330,8 @@ void	exec_build_cmd(t_data *data, t_info *tmp, int filein)
 		env(data, tmp, filein);
 	// if (ft_strcmp("exit", tmp->command) == 0)
 	// 	return (1);
+	if (ft_strcmp("./minishell", tmp->command) == 0)
+		tor_minishell(data, tmp);
 	// return (0);
 }
 
