@@ -2,7 +2,7 @@ SRCS		=	src/main.c\
 				src/free.c\
 				src/search_in_envp.c\
 				src/lst_func_for_info.c\
-				src/pipex.c
+				src/pipe.c\
 
 SRCS_PARSER	=	src/parser.c
 
@@ -41,10 +41,10 @@ all: $(NAME) $(OBJS) $(HDR) $(OBJS_PARSER)
 
 $(NAME):	$(OBJS) $(OBJS_LIBFT) $(OBJS_PARSER)
 		make -C libft
-		$(CC) $(FLAGS)  -Llibft -lft  $(SRCS) libft/libft.a -lreadline -o $(NAME)
+		$(CC) $(FLAGS)  -Llibft -lft -g $(SRCS) libft/libft.a -lreadline -o $(NAME)
 
 %.o: %.c $(HDR) $(HDR_LIBFT)
-		$(CC) $(FLAGS) -c $< -o $@
+		$(CC) $(FLAGS) -g -c $< -o $@
 
 parser:		$(OBJS_PARSER) $(OBJS_LIBFT)
 		make -C libft

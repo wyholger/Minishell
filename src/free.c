@@ -4,6 +4,8 @@ void	split_free(char **str)
 {
 	int	i;
 	
+	if (str == NULL)
+		return ;
 	i = 0;
 	while (str[i])
 	{

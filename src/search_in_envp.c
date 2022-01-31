@@ -10,9 +10,7 @@ t_list	*search_token_in_envp(t_data *data, char *str)
 {
 	t_list  *tmp;
 	char 	**for_split;
-	int		i;
 
-	i = 0;
 	tmp = data->env;
 	while (tmp)
 	{
@@ -33,9 +31,7 @@ char *search_in_envp(t_data *data, char *str)
 	t_list  *tmp;
 	char 	**for_split;
 	char	*result;
-	int		i;
-	
-	i = 0;
+
 	tmp = data->env;
 	while (tmp)
 	{

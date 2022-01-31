@@ -73,4 +73,6 @@ int		ft_atoi_base(char *str, int str_base);
 int		ft_lstprint_content(t_list **lst);
 int		ft_strcmp(const char *s1, const char *s2);
 char	*ft_strcpy(char *src);
+char	*ft_strtrim_start(char const *s1, char const *set);
+int		ft_search_word_in_str_on_end(char *str, char *word);
 #endif

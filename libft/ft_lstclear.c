@@ -23,8 +23,8 @@ int	ft_lstclear(t_list **lst)
 	{
 		temp = *lst;
 		*lst = (*lst)->next;
-		if (temp)
-			free(temp);
+		free(temp->word);
+		free(temp);
 	}
 	return (0);
 }
