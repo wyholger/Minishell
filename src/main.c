@@ -548,6 +548,8 @@ int	init_redirect_file_for_out(t_data *data, t_info *info, int flag_fork)
 			fileout = open_file(data, info->red[i+1], 1, flag_fork);
 		if (ft_strcmp(info->red[i], "3") == 0)
 			fileout = open_file(data, info->red[i+1], 0, flag_fork);
+		if (fileout != -1 && info->red[i+2] != NULL && ((ft_strcmp(info->red[i+2], "1") == 0) || (ft_strcmp(info->red[i+2], "3") == 0)))
+			close(fileout);
 		i+=2;
 	}
 	return (fileout);
@@ -586,6 +588,7 @@ void	exec_cmd_one(t_data *data, t_info *info)
 	{
 		init_redirect(data, info, 0, 0);
 		exec_build_cmd(data, info);
+		dup2(data->std_out, STDOUT_FILENO);
 	}
 	else
 	{
@@ -637,63 +640,63 @@ void	exec(t_data *data)
 // echo asdsdasdas | pwd
 void    plug(t_data *data)
 {
-	t_info *tmp;
+ 	t_info *tmp;
 	(void)tmp;
 
 	info_add_back(&data->info, info_new());
 	tmp = data->info;
-	data->info->command = "yes";
+	data->info->command = "cat";
 	data->info->count_command = 0;
-	data->info->arg = ft_split("yes", ' ');
+	data->info->arg = ft_split("cat -e", ' ');
 	data->info->flag = 0;
-	data->info->red = NULL;
+	data->info->red = ft_split("2 1 2 2 2 3 2 4", ' ');
 	data->info->semocolon = 0;
-	data->info->pipe = 1;
-	info_add_back(&data->info, info_new());
-	tmp = tmp->next;
-	tmp->command = "head";
-	tmp->count_command = 1;
-	tmp->arg = ft_split("head", ' ');
-	tmp->flag = 0;
-	tmp->red = NULL;
-	tmp->pipe = 1;
-	tmp->semocolon = 0;
-	info_add_back(&data->info, info_new());
-	tmp = tmp->next;
-	tmp->command = "head";
-	tmp->count_command = 3;
-	tmp->arg = ft_split("head", ' ');
-	tmp->flag = 0;
-	tmp->red = NULL;
-	tmp->pipe = 1;
-	tmp->semocolon = 0;
-	info_add_back(&data->info, info_new());
-	tmp = tmp->next;
-	tmp->command = "head";
-	tmp->count_command = 3;
-	tmp->arg = ft_split("head", ' ');
-	tmp->flag = 0;
-	tmp->red = NULL;
-	tmp->pipe = 1;
-	tmp->semocolon = 0;
-	info_add_back(&data->info, info_new());
-	tmp = tmp->next;
-	tmp->command = "head";
-	tmp->count_command = 3;
-	tmp->arg = ft_split("head", ' ');
-	tmp->flag = 0;
-	tmp->red = NULL;
-	tmp->pipe = 1;
-	tmp->semocolon = 0;
-	info_add_back(&data->info, info_new());
-	tmp = tmp->next;
-	tmp->command = "cat";
-	tmp->count_command = 4;
-	tmp->arg = ft_split("cat -e", ' ');
-	tmp->flag = 0;
-	tmp->red = NULL;
-	tmp->pipe = 0;
-	tmp->semocolon = 0;
+	data->info->pipe = 0;
+//	info_add_back(&data->info, info_new());
+//	tmp = tmp->next;
+//	tmp->command = "head";
+//	tmp->count_command = 1;
+//	tmp->arg = ft_split("head", ' ');
+//	tmp->flag = 0;
+//	tmp->red = NULL;
+//	tmp->pipe = 1;
+//	tmp->semocolon = 0;
+//	info_add_back(&data->info, info_new());
+//	tmp = tmp->next;
+//	tmp->command = "head";
+//	tmp->count_command = 3;
+//	tmp->arg = ft_split("head", ' ');
+//	tmp->flag = 0;
+//	tmp->red = NULL;
+//	tmp->pipe = 1;
+//	tmp->semocolon = 0;
+//	info_add_back(&data->info, info_new());
+//	tmp = tmp->next;
+//	tmp->command = "head";
+//	tmp->count_command = 3;
+//	tmp->arg = ft_split("head", ' ');
+//	tmp->flag = 0;
+//	tmp->red = NULL;
+//	tmp->pipe = 1;
+//	tmp->semocolon = 0;
+//	info_add_back(&data->info, info_new());
+//	tmp = tmp->next;
+//	tmp->command = "head";
+//	tmp->count_command = 3;
+//	tmp->arg = ft_split("head", ' ');
+//	tmp->flag = 0;
+//	tmp->red = NULL;
+//	tmp->pipe = 1;
+//	tmp->semocolon = 0;
+//	info_add_back(&data->info, info_new());
+//	tmp = tmp->next;
+//	tmp->command = "cat";
+//	tmp->count_command = 4;
+//	tmp->arg = ft_split("cat -e", ' ');
+//	tmp->flag = 0;
+//	tmp->red = ft_split("1 1 1 2 1 3", ' ');
+//	tmp->pipe = 0;
+//	tmp->semocolon = 0;
 //	info_add_back(&data->info, info_new());
 //	tmp = tmp->next;
 //	tmp->command = "pwd";
@@ -770,7 +773,7 @@ int main(int argc, char **argv, char **envp)
 	(void)argv;
 	(void)envp;
 	t_data data;
-	int s;
+//	int s;
 	// char *str;
 	
 	ft_init_struct(&data, envp);
@@ -783,6 +786,8 @@ int main(int argc, char **argv, char **envp)
 	init_pid(&data);
 	exec(&data);
 	wait_pid(&data);
+	printf("pid %d\n", getpid());
+	pause();
 	// while (data.status != 0)
 	// {
 //	 	data.str = readline(MINISHELL_MSG);
