@@ -802,5 +802,6 @@ int main(int argc, char **argv, char **envp)
 //	free struct
     
     //Test
+	printf("fakkldsjk");
    //ft_parser(&data);
 }
