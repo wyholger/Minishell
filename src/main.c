@@ -788,13 +788,17 @@ int main(int argc, char **argv, char **envp)
 	// wait_pid(&data);
 	// printf("pid %d\n", getpid());
 	// pause();
-	// while (data.status != 0)
-	// {
-	 	data.str = readline(MINISHELL_MSG);
-	// 	split_str(&data);
-	// 	//ft_parser
-	// 	free(data.str);
-	// }
+	 while (data.status != 0)
+	 {
+		 data.str = readline(MINISHELL_MSG);
+		 ft_parser(&data);
+		init_pid(&data);
+		exec(&data);
+		wait_pid(&data);
+		 info_clear(&data.info);
+	 	//ft_parser
+		 free(data.str);
+	 }
 //	free struct
     
     //Test

@@ -53,7 +53,12 @@ int	info_clear(t_info **lst)
 		temp = *lst;
 		*lst = (*lst)->next;
 		if (temp)
+		{
+			free(temp->command);
+			split_free(temp->arg);
+			split_free(temp->red);
 			free(temp);
+		}
 	}
 	return (0);
 }
