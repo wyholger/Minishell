@@ -3,6 +3,7 @@ SRCS		=	src/main.c\
 				src/search_in_envp.c\
 				src/lst_func_for_info.c\
 				src/pipe.c\
+				src/parser.c
 
 SRCS_PARSER	=	src/parser.c
 

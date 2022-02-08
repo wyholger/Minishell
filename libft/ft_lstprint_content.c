@@ -22,6 +22,7 @@ int	ft_lstprint_content(t_list **lst)
 	while (iter)
 	{
 		ft_putstr_fd(iter->word, 1);
+		write (1, &iter->value, 1);
 //		ft_putstr_fd(" Prw ", 1);
 //		if (iter->prev)
 //			ft_putstr_fd(iter->prev->word, 1);

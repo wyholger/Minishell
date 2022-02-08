@@ -780,17 +780,17 @@ int main(int argc, char **argv, char **envp)
 	// str = search_in_envp(&data, "PATH");
 	// printf("%s\n", str);
 	// free(str);
-	plug(&data);
+	//plug(&data);
 //	// info_print_content(&data.info);
 //	// printf("jfksdjksafdhj\n");
-	init_pid(&data);
-	exec(&data);
-	wait_pid(&data);
-	printf("pid %d\n", getpid());
-	pause();
+	// init_pid(&data);
+	// exec(&data);
+	// wait_pid(&data);
+	// printf("pid %d\n", getpid());
+	// pause();
 	// while (data.status != 0)
 	// {
-//	 	data.str = readline(MINISHELL_MSG);
+	 	data.str = readline(MINISHELL_MSG);
 	// 	split_str(&data);
 	// 	//ft_parser
 	// 	free(data.str);
@@ -798,5 +798,5 @@ int main(int argc, char **argv, char **envp)
 //	free struct
     
     //Test
-//    ft_parser(&data);
+   ft_parser(&data);
 }
