@@ -57,26 +57,36 @@ void ft_filling_info(t_data *data)
 	t_info *des;
 	int i;
 	int k;
+	int check;
 	
 	des = data->info;	
 	tmp = data->token;
+	k = 0;
+	i = 0;
+	check = 0;
 	//printf("%d", ft_len_for_pipe(tmp, 0));
 	while (tmp != NULL)
 	 {
-	 	k = 0;
-	 	i = 0;
+	 	
 		des = info_new();
 		des->command = ft_strdup(tmp->word);
-		des->arg = malloc(sizeof(char **) * ft_len_for_pipe(tmp, 0));
-		des->red = malloc(sizeof(char **) * ft_len_for_pipe2(tmp, 0) * 2);
+		des->arg = malloc(sizeof(char **) * ft_len_for_pipe(tmp, i + k));
+		des->red = malloc(sizeof(char **) * ft_len_for_pipe2(tmp, i + k) * 2);
+		k = 0;
+	 	i = 0;
 		des->arg[i] = ft_strdup(tmp->word);
 			i++;
-	 	tmp = tmp->next;
+		if (tmp->next)
+		{
+			tmp = tmp->next;
+			check = 1;
+		}
+	 	
 		if (ft_strcmp(tmp->word, "-n") == 0)
 			des->flag = 1;
 		while (ft_strcmp(tmp->word, "-n") == 0)
 					tmp = tmp->next;
-		while (tmp != NULL && tmp->value != 'P')
+		while (tmp != NULL && tmp->value != 'P' && check == 1)
 		{
 			if (tmp->value == 'W')
 				{
@@ -96,14 +106,15 @@ void ft_filling_info(t_data *data)
 			des->pipe = 1;
 		des->arg[i] = NULL;
 		des->red[k] = NULL;
+		if (des->red[0] == NULL)
+			des->red = NULL;
 		info_add_back(&data->info, des);
 		if (tmp != NULL)
 		tmp = tmp->next;
 		des = des->next;
 		//free token
 	}
-
-	info_print_content(&data->info);
+	//info_print_content(&data->info);
 	//printf("%s", data->info->arg[0]);
 	//printf("%s", des->command);
 	//ft_lstprint_content(&data->token);
@@ -729,6 +740,7 @@ void ft_parser(t_data *data)
 
 		ft_pars_token(data);
 		ft_treatmen_token(data);
+		info_print_content(&data->info);
 		  // send struct
 	}
 		
@@ -736,6 +748,8 @@ void ft_parser(t_data *data)
 	   printf("Error\n");
   
 	ft_lstclear(&data->token);
+
+
 	
 	
 }
