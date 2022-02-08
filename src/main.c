@@ -800,7 +800,7 @@ int main(int argc, char **argv, char **envp)
 		 free(data.str);
 	 }
 //	free struct
-    
+    printf("%d", 1);
     //Test
    //ft_parser(&data);
 }
