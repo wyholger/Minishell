@@ -802,5 +802,9 @@ int main(int argc, char **argv, char **envp)
     printf("%d", 1);
     //Test
 	printf("fakkldsjk");
+
+
+
+	 printf("eoqwiqeioqewioip");
    //ft_parser(&data);
 }
