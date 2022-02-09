@@ -796,7 +796,6 @@ int main(int argc, char **argv, char **envp)
 		exec(&data);
 		wait_pid(&data);
 		 info_clear(&data.info);
-	 	//ft_parser
 		 free(data.str);
 	 }
 //	free struct

@@ -6,14 +6,21 @@ int ft_len_for_pipe2(t_list *token, int i)
 	int k;
 
 	k = 0;
-	while(k != i)
+	// while(k != i)
+	// {
+	// 	token = token->next;
+	// 	k++;
+	// }
+	// if (token->value == 'P')
+	// 	token = token->next;
+	while (token != NULL && i != 0)
 	{
+		if (token->value == 'P')
+			i--;
 		token = token->next;
-		k++;
 	}
-	if (token->value == 'P')
+	if (token != NULL && token->value == 'P')
 		token = token->next;
-	k = 0;
 	while (token != NULL && token->value != 'P')
 	{
 		if (token->value == 'R')
@@ -29,16 +36,25 @@ int ft_len_for_pipe2(t_list *token, int i)
 int ft_len_for_pipe(t_list *token, int i)
 {
 	int k;
+	//int p;
 
 	k = 0;
-	while(k != i)
+	// while(k != i)
+	// {
+	// 	token = token->next;
+	// 	k++;
+	// }
+	// if (token->value == 'P')
+	// 	token = token->next;
+	// k = 0;
+	while (token != NULL && i != 0)
 	{
+		if (token->value == 'P')
+			i--;
 		token = token->next;
-		k++;
 	}
-	if (token->value == 'P')
+	if (token != NULL && token->value == 'P')
 		token = token->next;
-	k = 0;
 	while (token != NULL && token->value != 'P')
 	{
 		if (token->value == 'W')
@@ -58,34 +74,34 @@ void ft_filling_info(t_data *data)
 	int i;
 	int k;
 	int check;
-	
+	int p;
 	des = data->info;	
 	tmp = data->token;
-	k = 0;
-	i = 0;
 	check = 0;
-	//printf("%d", ft_len_for_pipe(tmp, 0));
+	p = 0;
 	while (tmp != NULL)
 	 {
-	 	
+	 	printf("%d", ft_len_for_pipe(data->token, p));
 		des = info_new();
-		des->command = ft_strdup(tmp->word);
-		des->arg = malloc(sizeof(char **) * ft_len_for_pipe(tmp, i + k));
-		des->red = malloc(sizeof(char **) * ft_len_for_pipe2(tmp, i + k) * 2);
 		k = 0;
 	 	i = 0;
+		des->command = ft_strdup(tmp->word);
+		des->arg = malloc(sizeof(char **) * ft_len_for_pipe(data->token, p));
+		des->red = malloc(sizeof(char **) * ft_len_for_pipe2(data->token, p) * 2);		
 		des->arg[i] = ft_strdup(tmp->word);
 			i++;
 		if (tmp->next)
 		{
 			tmp = tmp->next;
 			check = 1;
-		}
-	 	
+		}		
 		if (ft_strcmp(tmp->word, "-n") == 0)
 			des->flag = 1;
-		while (ft_strcmp(tmp->word, "-n") == 0)
+		if (tmp->next)
+		{
+			while (ft_strcmp(tmp->word, "-n") == 0)
 					tmp = tmp->next;
+		}		
 		while (tmp != NULL && tmp->value != 'P' && check == 1)
 		{
 			if (tmp->value == 'W')
@@ -112,6 +128,7 @@ void ft_filling_info(t_data *data)
 		if (tmp != NULL)
 		tmp = tmp->next;
 		des = des->next;
+		p++;
 		//free token
 	}
 	//info_print_content(&data->info);
@@ -582,7 +599,7 @@ void ft_token_word(t_list *token, t_data *data)
 
 void ft_treatmen_token(t_data *data)
 {
-	printf("Check\n");
+	//printf("Check\n");
 	t_list *tmp;
 	
 	tmp = data->token;
@@ -595,6 +612,8 @@ void ft_treatmen_token(t_data *data)
 			|| (tmp->word[1] && tmp->word[1] == '<') 
 			|| (tmp->word[1] && tmp->word[1] == '>'))
 				tmp->value = 'R';
+			// else if (tmp->word[0] == '\0')
+			// 	tmp->value = 'S';
 			else
 			   {
 				   tmp->value = 'W';
@@ -629,6 +648,7 @@ void ft_double_quotes(t_data *data, int *i, t_list *token)
 }
 
 
+
 t_list *ft_token_space(t_data *data, int *i)
 {
 	int k;
@@ -641,6 +661,7 @@ t_list *ft_token_space(t_data *data, int *i)
 	new_token->word = malloc(sizeof(char) * (*i - k) + 1);
 	if(!new_token->word || !new_token)
 		return(NULL);
+	
 	while (k != (*i))
 	{
 		new_token->word[j] = data->str[k];
@@ -652,6 +673,18 @@ t_list *ft_token_space(t_data *data, int *i)
 			(*i)++;
 	data->breakpoint = *i;
 	return (ft_lstnew(new_token->word));
+}
+
+
+int ft_chek_around_pipe(t_data *data, int i)
+{
+	if (data->str[i - 1] == ' ' && data->str[i + 1] == ' ' )
+		return(1);
+	if (data->str[i - 1] != ' ' && data->str[i + 1] == ' ' )
+		return(2);
+	if (data->str[i - 1] == ' ' && data->str[i + 1] != ' ' )
+		return(3);
+	return (0);
 }
 
 t_list *ft_token_pipe(t_data *data, int *i)
@@ -694,7 +727,10 @@ t_list *ft_token_spec(t_data *data, int *i)
 	}
 	new_token->word[0] = data->str[k];
 	new_token->word[1] = '\0';
-	data->breakpoint = *i + 1;
+	(*i)++;
+	while (data->str[(*i)] == ' ')
+			(*i)++;
+	data->breakpoint = *i;
 	return (ft_lstnew(new_token->word));
 }
 
@@ -702,10 +738,15 @@ void ft_pars_token(t_data *data)
 {
 	int i;
 	t_list *tmp;
+	int p;
+	
 	tmp = data->token;
-	data->breakpoint = 0;
+	
 	i = 0;
-	while (data->str[i])
+	while (data->str[i] == ' ')
+		i++;
+	data->breakpoint = i;
+	while (data->str[i] != '\0')
 	{
 		if (data->str[i] == '\'')
 			ft_quotes(data, &i, tmp);
@@ -718,12 +759,23 @@ void ft_pars_token(t_data *data)
 		}
 		if (data->str[i] == '|')
 		{
-			ft_lstadd_back(&data->token, ft_token_pipe(data, &i));
-			ft_lstadd_back(&data->token, ft_token_spec(data, &i));
+			p = ft_chek_around_pipe(data, i);
+			//printf("%d\n", p);
+			if (p == 0 || p == 2)
+			{
+				ft_lstadd_back(&data->token, ft_token_pipe(data, &i));
+				ft_lstadd_back(&data->token, ft_token_spec(data, &i));
+			}
+			if (p == 1 || p == 3)
+			{
+				ft_lstadd_back(&data->token, ft_token_spec(data, &i));
+			}			
 		}
 		i++;
 	}
+	if(data->str[data->breakpoint] != '\0')
     ft_lstadd_back(&data->token, ft_token_space(data, &i));
+	//printf("%c", data->str[data->breakpoint]);
 	//ft_lstprint_content(&data->token);
 }
 
@@ -745,8 +797,7 @@ void ft_parser(t_data *data)
 	}
 		
    else
-	   printf("Error\n");
-  
+	   printf("Error\n");  
 	ft_lstclear(&data->token);
 
 
