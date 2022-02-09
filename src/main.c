@@ -338,8 +338,6 @@ void	exit_my(t_data *data, t_info *tmp)
 {
 	(void)tmp;
 	ft_lstclear(&data->env);
-	ft_lstclear(&data->token);
-	split_free(data->info->arg);
 	info_clear(&data->info);
 	free(data->pid);
 	if (data->pwd_old != NULL)
