@@ -21,7 +21,8 @@ void	ft_lstdelone(t_list **lst)
 	if (!lst)
 		return ;
 	tmp->prev->next = tmp->next;
-	tmp->next->prev = tmp->prev;
+	if (tmp->next != NULL)
+		tmp->next->prev = tmp->prev;
 	free(tmp->word);
 	tmp->next = NULL;
 	tmp->prev = NULL;

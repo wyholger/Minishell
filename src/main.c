@@ -174,11 +174,10 @@ void	pwd(t_data *data, t_info *tmp)
 	exit_exec(data, 0);
 }
 
-void	env(t_data *data, t_info *tmp)
+void	env(t_data *data)
 {
 	t_list *tmp_env;
 
-	(void)tmp;
 	tmp_env = data->env;
 	while (tmp_env != NULL)
 	{
@@ -257,6 +256,27 @@ void	cd(t_data *data, t_info *tmp)
 		free(path);
 }
 
+//t_list	*sort_env(t_data *data, t_info *tmp)
+//{
+//	t_list	*res;
+//
+//
+//}
+//
+//void	export_if_no_arg(t_data *data, t_info *tmp)
+//{
+//	t_list	*tmp_env;
+//
+//	tmp_env = data->env;
+//	while (tmp_env != NULL)
+//	{
+//		tmp_env->value = 0;
+//		tmp_env = tmp_env->next;
+//	}
+//	tmp_env = data->env;
+//	while ()
+//}
+
 void	export(t_data *data, t_info *tmp)
 {
 	char	**for_split;
@@ -288,6 +308,10 @@ void	export(t_data *data, t_info *tmp)
 			ft_putstr_fd(": not a valid identifier\n", 2);
 			exit_exec(data, 1);
 		}
+	}
+	else
+	{
+
 	}
 }
 
@@ -326,6 +350,7 @@ void	tor_minishell(t_data *data, t_info *tmp) //доделать
 	env = NULL;
 	increment_shell_in_env(data);
 	env = env_list_to_map(data);
+	printf("QQQQQ\n");
 	decrement_shell_in_env(data);
 	pid = fork();
 	add_pid(data, pid);
@@ -361,7 +386,7 @@ void	exec_build_cmd(t_data *data, t_info *tmp)
 	if (ft_strcmp("unset", tmp->command) == 0)
 		unset(data, tmp);
 	if (ft_strcmp("env", tmp->command) == 0)
-		env(data, tmp);
+		env(data);
 	if (ft_strcmp("exit", tmp->command) == 0)
 		exit_my(data, tmp);
 	if (ft_search_word_in_str_on_end(tmp->command, "/minishell") == 0)
