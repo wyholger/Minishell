@@ -422,7 +422,6 @@ void	tor_minishell(t_data *data, t_info *tmp) //доделать
 	env = NULL;
 	increment_shell_in_env(data);
 	env = env_list_to_map(data);
-	printf("QQQQQ\n");
 	decrement_shell_in_env(data);
 	pid = fork();
 	add_pid(data, pid);
@@ -588,13 +587,17 @@ void	serch_bin(t_data *data, t_info *info, char **env)
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(info->command, 2);
 		ft_putstr_fd(": command not found\n", 2);
+		split_free(env);
 		exit (127);
 	}
 }
 
 void	exec_bin(t_data *data, t_info *info)
 {
-	serch_bin(data, info, data->envp);
+	char	**env;
+
+	env = env_list_to_map(data);
+	serch_bin(data, info, env);
 	exit (data->exit_proc_number);
 }
 
@@ -707,23 +710,6 @@ void	exec(t_data *data)
 	data->pipe_size = init_pipe_size(tmp);
 	while (tmp != NULL)
 	{
-
-//		if (check_on_bild_cmd(tmp) == 1 && tmp->pipe == 0 && tmp->red == NULL)
-//		{
-//			exec_build_cmd(data, tmp);
-//		}
-//		else if (tmp->pipe == 0 && tmp->red == NULL)
-//		{
-//			pid = fork();
-//			if (pid == -1) {
-//				return ;
-//			}
-//			add_pid(data, pid);
-//			if (pid == 0)
-//			{
-//				exec_bin(data, tmp);
-//			}
-//		}
 		if (tmp->pipe == 0)
 			exec_cmd_one(data, tmp);
 		else if (tmp->pipe == 1)
@@ -732,7 +718,6 @@ void	exec(t_data *data)
 	}
 }
 // echo -nnnnnnnn hi
-// echo asdsdasdas | pwd
 void    plug(t_data *data)
 {
  	t_info *tmp;
@@ -883,23 +868,15 @@ int main(int argc, char **argv, char **envp)
 	// wait_pid(&data);
 	// printf("pid %d\n", getpid());
 	// pause();
-	 while (data.status != 0)
-	 {
-		 data.str = readline(MINISHELL_MSG);
-		 ft_parser(&data);
+	while (data.status != 0)
+	{
+		data.str = readline(MINISHELL_MSG);
+		ft_parser(&data);
 		init_pid(&data);
 		exec(&data);
 		wait_pid(&data);
-		 info_clear(&data.info);
-		 free(data.str);
-	 }
-//	free struct
-    printf("%d", 1);
-    //Test
-	printf("fakkldsjk");
-
-
-
-	 printf("eoqwiqeioqewioip");
-   //ft_parser(&data);
+		info_clear(&data.info);
+		data.info = NULL;
+		free(data.str);
+	}
 }
