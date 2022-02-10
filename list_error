@@ -3,8 +3,8 @@ space around pipe+
 check incorrect redirect
 info 2 malloc for arg and red.+
 
-export без аргументов должен сортировать и выводить енв
-export должен работать с несколькими аргументами
+export без аргументов должен сортировать и выводить енв+
+export должен работать с несколькими аргументами+
 env нужно подавать актуальную в execve
 ./minishell в минишеле сегается+
 
