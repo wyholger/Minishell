@@ -854,7 +854,7 @@ int main(int argc, char **argv, char **envp)
 	(void)envp;
 	t_data data;
 //	int s;
-	// char *str;
+//char *str;
 	
 	ft_init_struct(&data, envp);
 	// str = search_in_envp(&data, "PATH");
@@ -870,13 +870,28 @@ int main(int argc, char **argv, char **envp)
 	// pause();
 	while (data.status != 0)
 	{
+        ft_sig_read();
+        data.str = 0;
 		data.str = readline(MINISHELL_MSG);
-		ft_parser(&data);
-		init_pid(&data);
-		exec(&data);
-		wait_pid(&data);
-		info_clear(&data.info);
-		data.info = NULL;
-		free(data.str);
+        if (data.str == 0)
+        {
+            printf("\033[1Aminishell$ exit\n");
+            rl_clear_history();
+            exit(0);
+        }
+            
+        if (data.str != 0)
+        {
+            add_history(data.str);
+            ft_parser(&data);
+            //init_pid(&data);
+            //exec(&data);
+            //wait_pid(&data);
+            info_clear(&data.info);
+            data.info = NULL;
+            free(data.str);
+        }
 	}
+    rl_clear_history();
+    return (0);
 }

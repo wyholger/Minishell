@@ -28,7 +28,7 @@ OBJS_PARSER	=	${SRCS_PARSER:.c=.o}
 
 CC			=	gcc
 
-FLAGS		=	-Wall -Wextra -Werror
+FLAGS		=	-Wall -Wextra -Werror -I/Users/wpitts/.brew/Cellar/readline/8.1.2/include 
 
 RM			=	rm -f
 
@@ -42,7 +42,7 @@ all: $(NAME) $(OBJS) $(HDR) $(OBJS_PARSER)
 
 $(NAME):	$(OBJS) $(OBJS_LIBFT) $(OBJS_PARSER)
 		make -C libft
-		$(CC) $(FLAGS)  -Llibft -lft -g $(SRCS) libft/libft.a -lreadline -o $(NAME)
+		$(CC) $(FLAGS)  -Llibft -lft -g $(SRCS) libft/libft.a -lreadline -o $(NAME) -L/Users/wpitts/.brew/Cellar/readline/8.1.2/lib -lreadline 
 
 %.o: %.c $(HDR) $(HDR_LIBFT)
 		$(CC) $(FLAGS) -g -c $< -o $@

@@ -14,7 +14,7 @@
 # include <errno.h>
 # include <termios.h>
 
-# define MINISHELL_MSG "\033[35mminishell$ \033[0m"
+# define MINISHELL_MSG "minishell$ "
 
 typedef struct s_info
 {
@@ -87,4 +87,9 @@ int		init_redirect_file_for_in(t_data *data, t_info *info, int flag_fork);
 int		init_redirect_file_for_out(t_data *data, t_info *info, int flag_fork);
 char	*init_path_for_execve(t_data *data, t_info *info);
 void	serch_bin(t_data *data, t_info *info, char **env);
+
+
+
+
+void    ft_sig_read(void);
 #endif
