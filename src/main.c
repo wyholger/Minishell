@@ -430,9 +430,41 @@ void	tor_minishell(t_data *data, t_info *tmp) //доделать
 	split_free(env);
 }
 
+int count_arg(char **str)
+{
+	int i;
+
+	i = 0;
+	while (str[i] != NULL)
+		i++;
+	return (i);
+}
+
+int	check_str_is_int(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (ft_isdigit((int)str[i]) == 0)
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 void	exit_my(t_data *data, t_info *tmp)
 {
-	(void)tmp;
+	if (tmp->arg[1] != NULL && check_str_is_int(tmp->arg[1]) == 1)
+		data->exit_proc_number = ft_atoi(tmp->arg[1]);
+	if (count_arg(tmp->arg) > 2)
+	{
+		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+		data->exit_proc_number = 130;
+		return ;
+	}
+	ft_putstr_fd("exit\n", 1);
 	ft_lstclear(&data->env);
 	info_clear(&data->info);
 	free(data->pid);
@@ -490,14 +522,14 @@ void	wait_pid(t_data *data)
 		{
 			return (perror("WAIT_PID"));
 		}
-		if (WIFSIGNALED(data->exit_proc_number)) {
+		if (WIFSIGNALED(data->exit_proc_number))
+		{
 			data->exit_proc_number = 130;
 		}
 		else
 		{
 			data->exit_proc_number = WEXITSTATUS(data->exit_proc_number);
 		}
-//		printf("exit status %d\n", data->exit_proc_number);
 		i++;
 	}
 }
@@ -718,156 +750,14 @@ void	exec(t_data *data)
 	}
 }
 // echo -nnnnnnnn hi
-void    plug(t_data *data)
-{
- 	t_info *tmp;
-	(void)tmp;
-
-	info_add_back(&data->info, info_new());
-	tmp = data->info;
-	data->info->command = "cat";
-	data->info->count_command = 0;
-	data->info->arg = ft_split("cat -e", ' ');
-	data->info->flag = 0;
-	data->info->red = ft_split("2 1 2 2 2 3 2 4", ' ');
-	data->info->semocolon = 0;
-	data->info->pipe = 0;
-//	info_add_back(&data->info, info_new());
-//	tmp = tmp->next;
-//	tmp->command = "head";
-//	tmp->count_command = 1;
-//	tmp->arg = ft_split("head", ' ');
-//	tmp->flag = 0;
-//	tmp->red = NULL;
-//	tmp->pipe = 1;
-//	tmp->semocolon = 0;
-//	info_add_back(&data->info, info_new());
-//	tmp = tmp->next;
-//	tmp->command = "head";
-//	tmp->count_command = 3;
-//	tmp->arg = ft_split("head", ' ');
-//	tmp->flag = 0;
-//	tmp->red = NULL;
-//	tmp->pipe = 1;
-//	tmp->semocolon = 0;
-//	info_add_back(&data->info, info_new());
-//	tmp = tmp->next;
-//	tmp->command = "head";
-//	tmp->count_command = 3;
-//	tmp->arg = ft_split("head", ' ');
-//	tmp->flag = 0;
-//	tmp->red = NULL;
-//	tmp->pipe = 1;
-//	tmp->semocolon = 0;
-//	info_add_back(&data->info, info_new());
-//	tmp = tmp->next;
-//	tmp->command = "head";
-//	tmp->count_command = 3;
-//	tmp->arg = ft_split("head", ' ');
-//	tmp->flag = 0;
-//	tmp->red = NULL;
-//	tmp->pipe = 1;
-//	tmp->semocolon = 0;
-//	info_add_back(&data->info, info_new());
-//	tmp = tmp->next;
-//	tmp->command = "cat";
-//	tmp->count_command = 4;
-//	tmp->arg = ft_split("cat -e", ' ');
-//	tmp->flag = 0;
-//	tmp->red = ft_split("1 1 1 2 1 3", ' ');
-//	tmp->pipe = 0;
-//	tmp->semocolon = 0;
-//	info_add_back(&data->info, info_new());
-//	tmp = tmp->next;
-//	tmp->command = "pwd";
-//	tmp->count_command = 3;
-//	tmp->arg = ft_split("pwd", ' ');
-//	tmp->flag = 0;
-//	tmp->red = NULL;
-//	tmp->pipe = 0;
-//	tmp->semocolon = 0;
-	// info_add_back(&data->info, info_new());
-	// tmp = tmp->next;
-	// tmp->command = "grep";
-	// tmp->count_command = 3;
-	// tmp->arg = ft_split("grep HOME", ' ');
-	// tmp->flag = 0;
-	// tmp->red = NULL;
-	// tmp->pipe = 0;
-	// tmp->semocolon = 1;
-
-
-
-	// info_add_back(&data->info, info_new());
-	// tmp = tmp->next;
-	// tmp->command = "env";
-	// tmp->count_command = 3;
-	// tmp->arg = ft_split("env", ' ');
-	// tmp->flag = 0;
-	// tmp->red = NULL;
-	// tmp->pipe = 0;
-	// tmp->semocolon = 1;
-	// info_add_back(&data->info, info_new());
-	// tmp = tmp->next;
-	// tmp->command = "pwd";
-	// tmp->count_command = 2;
-	// tmp->arg = ft_split("pwd", ' ');
-	// tmp->flag = 0;
-	// tmp->red = NULL;
-	// tmp->pipe = 0;
-	// tmp->semocolon = 1;
-	// info_add_back(&data->info, info_new());
-	// tmp = tmp->next;
-	// tmp->command = "env";
-	// tmp->count_command = 3;
-	// tmp->arg = ft_split("env PWD", ' ');
-	// tmp->flag = 0;
-	// tmp->red = NULL;
-	// tmp->pipe = 0;
-	// tmp->semocolon = 1;
-	// info_add_back(&data->info, info_new());
-	// tmp = tmp->next;
-	// tmp->command = "ls";
-	// tmp->count_command = 1;
-	// tmp->arg = ft_split("ls", ' ');
-	// tmp->flag = 0;
-	// tmp->red = NULL;
-	// tmp->pipe = 0;
-	// tmp->semocolon = 1;
-
-	// info_add_back(&data->info, info_new());
-	// tmp = tmp->next;
-	// tmp->command = "ls";
-	// tmp->count_command = 3;
-	// tmp->arg = ft_split("ls", ' ');;
-	// tmp->flag = 0;
-	// tmp->red = ft_split("1 32", ' ');
-	// tmp->pipe = 0;
-	// tmp->semocolon = 0;
-}
-
 
 int main(int argc, char **argv, char **envp)
 {
 	(void)argc;
 	(void)argv;
-	(void)envp;
 	t_data data;
-//	int s;
-//char *str;
 	
 	ft_init_struct(&data, envp);
-	// str = search_in_envp(&data, "PATH");
-	// printf("%s\n", str);
-	// free(str);
-	//plug(&data);
-//	// info_print_content(&data.info);
-//	// printf("jfksdjksafdhj\n");
-	// init_pid(&data);
-	// exec(&data);
-	// wait_pid(&data);
-	// printf("pid %d\n", getpid());
-	// pause();
 	while (data.status != 0)
 	{
         ft_sig_read();
