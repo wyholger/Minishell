@@ -884,9 +884,9 @@ int main(int argc, char **argv, char **envp)
         {
             add_history(data.str);
             ft_parser(&data);
-            //init_pid(&data);
-            //exec(&data);
-            //wait_pid(&data);
+            init_pid(&data);
+            exec(&data);
+            wait_pid(&data);
             info_clear(&data.info);
             data.info = NULL;
             free(data.str);

@@ -98,7 +98,7 @@ void ft_filling_info(t_data *data)
 	p = 0;
 	while (tmp != NULL)
 	 {
-	 	printf("%d", ft_len_for_pipe(data->token, p));
+//	 	printf("%d", ft_len_for_pipe(data->token, p));
 		des = info_new();
 		k = 0;
 	 	i = 0;

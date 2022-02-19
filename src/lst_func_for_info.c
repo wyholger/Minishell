@@ -11,6 +11,9 @@ t_info	*info_new()
 	begin->prev = NULL;
 	begin->arg = NULL;
 	begin->command = NULL;
+	begin->flag = 0;
+	begin->pipe = 0;
+	begin->semocolon = 0;
 	return (begin);
 }
 

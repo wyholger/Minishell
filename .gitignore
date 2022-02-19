@@ -4,3 +4,4 @@ CMakeLists.txt
 libft/.DS_Store
 .DS_Store
 minishell-tester
+minishell_test.log
