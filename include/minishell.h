@@ -53,6 +53,7 @@ typedef struct s_data
 	int		pipe_last[2];
 	int 	filein;
 	int 	fileout;
+	int		flag_old_pwd;
     char    *pwd_start;
     char    *pwd_now;
     char    *pwd_home;
@@ -87,6 +88,39 @@ int		init_redirect_file_for_in(t_data *data, t_info *info, int flag_fork);
 int		init_redirect_file_for_out(t_data *data, t_info *info, int flag_fork);
 char	*init_path_for_execve(t_data *data, t_info *info);
 void	serch_bin(t_data *data, t_info *info, char **env);
+void	swap_token(t_list	*swap_token);
+void 	print_env_for_export(t_list *lst);
+void	export_if_no_arg(t_data *data);
+void	exit_exec(t_data *data, int status);
+void	export(t_data *data, t_info *tmp);
+void 	export_logic(t_data *data, t_info *tmp, int flag, int i);
+void	export_error_msg(t_data *data, t_info *tmp);
+void	cd(t_data *data, t_info *tmp);
+void	unset(t_data *data, t_info *tmp);
+void 	decrement_shell_in_env(t_data *data);
+void	increment_shell_in_env(t_data *data);
+void	tor_minishell(t_data *data, t_info *tmp);
+char	**env_list_to_map(t_data *data);
+void	env(t_data *data);
+void	pwd(t_data *data, t_info *tmp);
+void	echo(t_data *data, t_info *tmp);
+void	exit_my(t_data *data, t_info *tmp);
+int		check_str_is_int(char *str);
+int		count_arg(char **str);
+void	exec_cmd_one(t_data *data, t_info *info);
+void	init_redirect(t_data *data, t_info *info, int flag_fork, int flag_in);
+int		init_redirect_file_for_out(t_data *data, t_info *info, int flag_fork);
+int		init_redirect_file_for_in(t_data *data, t_info *info, int flag_fork);
+int 	init_pipe_size(t_info *tmp);
+char	*init_path_for_execve(t_data *data, t_info *info);
+char	*path_by_path(t_data *data, t_info *info);
+char 	*real_way(t_data *data, t_info *info);
+char	*absolute_path(t_data *data, t_info *info);
+void	wait_pid(t_data *data);
+void	init_pid(t_data *data);
+void	ft_init_struct(t_data *data, char **envp);
+void	init_envp(t_data *data, char **envp);
+void	split_str(t_data *data);
 
 
 

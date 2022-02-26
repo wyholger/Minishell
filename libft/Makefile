@@ -35,7 +35,7 @@ $(NAME):	$(OBJS)
 		$(AR) $(NAME) $?
 	
 %.o : %.c $(HEADER)
-	$(CC) $(FLAGS) -g -c $< -o $@
+	$(CC) $(FLAGS) -c $< -o $@
 
 clean:
 	$(RM) $(OBJS)
