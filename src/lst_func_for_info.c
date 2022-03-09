@@ -10,10 +10,13 @@ t_info	*info_new()
 	begin->next = NULL;
 	begin->prev = NULL;
 	begin->arg = NULL;
+    begin->red = NULL;
 	begin->command = NULL;
 	begin->flag = 0;
 	begin->pipe = 0;
 	begin->semocolon = 0;
+    begin->redir = NULL;
+    begin->name_her = NULL;
 	return (begin);
 }
 

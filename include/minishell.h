@@ -33,6 +33,7 @@ typedef struct s_info
 	// 2>(5)
 	// 2>>(6)
     t_list *redir;
+    char *name_her;
 	int pipe;
 	int semocolon;
 	struct s_info *next;

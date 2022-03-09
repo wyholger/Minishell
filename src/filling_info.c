@@ -132,7 +132,8 @@ void ft_filling_info(t_data *data)
                     {
                         ft_filling_red(des, tmp->next->word);
                         des->red[k] = ft_strdup("2");
-                        des->red[k + 1] = ft_strdup(ft_strjoin("herdoc_", ft_itoa(p)));
+                        des->name_her = ft_strjoin("herdoc_", ft_itoa(p));
+                        des->red[k + 1] = ft_strdup(des->name_her);
                         
                     }
                     else
@@ -155,6 +156,7 @@ void ft_filling_info(t_data *data)
 		if (tmp != NULL)
 		tmp = tmp->next;
          //ft_lstprint_content(&des->redir);
+         //вот тут можно вызвать функцию для создания файла;
 		des = des->next;
 		p++;
 		//free token
