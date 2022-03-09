@@ -98,6 +98,28 @@ void	init_heredok(t_info *des)
 	}
 }
 
+int ft_check_redmal(t_list *token, int i)
+{
+    int k;
+
+    k = 0;
+    while (token != NULL && i != 0)
+    {
+        if (token->value == 'P')
+            i--;
+        token = token->next;
+    }
+    if (token != NULL && token->value == 'P')
+        token = token->next;
+    while (token != NULL && token->value != 'P')
+    {
+        if (token->value == 'R')
+            return (1);
+        token = token->next;
+    }
+    return (0);
+}
+
 void ft_filling_info(t_data *data)
 {
 	t_list *tmp;
@@ -118,7 +140,8 @@ void ft_filling_info(t_data *data)
 	 	i = 0;
 		des->command = ft_strdup(tmp->word);
 		des->arg = malloc(sizeof(char **) * ft_len_for_pipe(data->token, p) + 1);
-		des->red = malloc(sizeof(char **) * ft_len_for_pipe2(data->token, p) * 2 + 1);
+        if(ft_check_redmal(data->token, p) == 1)
+            des->red = malloc(sizeof(char **) * ft_len_for_pipe2(data->token, p) * 2 + 1);
 		des->arg[i] = ft_strdup(tmp->word);
 			i++;
 		if (tmp->next)
@@ -163,9 +186,13 @@ void ft_filling_info(t_data *data)
 		if (tmp && tmp->value == 'P')
 			des->pipe = 1;
 		des->arg[i] = NULL;
-		des->red[k] = NULL;
-		if (des->red[0] == NULL)
-			des->red = NULL;
+        if(ft_check_redmal(data->token, p) == 1)
+        {
+            des->red[k] = NULL;
+            if (des->red[0] == NULL)
+                des->red = NULL;
+        }
+            
 		info_add_back(&data->info, des);
 		if (tmp != NULL)
 		tmp = tmp->next;
