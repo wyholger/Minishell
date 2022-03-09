@@ -6,7 +6,7 @@
 /*   By: wyholger <wyholger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 19:34:15 by wyholger          #+#    #+#             */
-/*   Updated: 2022/03/09 19:47:40 by wyholger         ###   ########.fr       */
+/*   Updated: 2022/03/09 21:32:44 by wyholger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int	main(int argc, char **argv, char **envp)
 		{
 			printf("\033[1Aminishell$ exit\n");
 			rl_clear_history();
+            signal_exit(&data);
             //exit_my(&data, data.info);
 			exit(0);
 		}

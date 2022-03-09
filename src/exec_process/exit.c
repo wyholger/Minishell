@@ -6,7 +6,7 @@
 /*   By: wyholger <wyholger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 19:54:51 by wyholger          #+#    #+#             */
-/*   Updated: 2022/03/09 19:55:18 by wyholger         ###   ########.fr       */
+/*   Updated: 2022/03/09 21:31:23 by wyholger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,20 @@ int	check_str_is_int(char *str)
 		i++;
 	}
 	return (1);
+}
+
+void	signal_exit(t_data *data)
+{
+	ft_putstr_fd("exit\n", 1);
+	ft_lstclear(&data->env);
+	info_clear(&data->info);
+	free(data->pid);
+	if (data->pwd_old != NULL)
+		free(data->pwd_old);
+	free(data->pwd_now);
+	free(data->pwd_home);
+	free(data->pwd_start);
+	exit(data->exit_proc_number);
 }
 
 void	exit_my(t_data *data, t_info *tmp)
