@@ -6,7 +6,7 @@
 /*   By: wyholger <wyholger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 14:46:12 by wyholger          #+#    #+#             */
-/*   Updated: 2022/03/09 19:47:55 by wyholger         ###   ########.fr       */
+/*   Updated: 2022/03/09 21:22:31 by wyholger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,15 @@ void	split_str(t_data *data)
 
 void	init_envp(t_data *data, char **envp)
 {
-	int	i;
+	int		i;
+	char	*str;
 
 	i = 0;
 	while (envp[i])
 	{
-		ft_lstadd_back(&data->env, ft_lstnew(ft_strdup(envp[i])));
+		str = ft_strdup(envp[i]);
+		ft_lstadd_back(&data->env, ft_lstnew(str));
+		free(str);
 		i++;
 	}
 }
