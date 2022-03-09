@@ -15,7 +15,12 @@ SRCS		=	src/main.c\
 				src/exec.c\
 				src/exec_2.c\
 				src/exec_3.c\
-				src/init_exec_path.c
+				src/init_exec_path.c\
+				src/filling_info.c\
+				src/utils_token.c\
+				src/treatment_token.c\
+				src/split_token.c\
+				src/signal.c
 
 SRCS_LIBFT	=	libft/ft_atoi.c			libft/ft_isdigit.c		libft/ft_memmove.c			libft/ft_strlen.c\
 				libft/ft_bzero.c		libft/ft_isprint.c		libft/ft_memset.c			libft/ft_strncmp.c\

@@ -21,6 +21,6 @@ t_list	*ft_lstnew(char *content)
 		return (NULL);
 	begin->next = NULL;
 	begin->prev = NULL;
-	begin->word = content;
+	begin->word = ft_strdup(content);
 	return (begin);
 }

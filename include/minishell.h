@@ -16,6 +16,8 @@
 
 # define MINISHELL_MSG "minishell$ "
 
+int g_exit;
+
 typedef struct s_info
 {
 	char *command;
@@ -30,6 +32,7 @@ typedef struct s_info
 	// <<(4)
 	// 2>(5)
 	// 2>>(6)
+    t_list *redir;
 	int pipe;
 	int semocolon;
 	struct s_info *next;
@@ -126,4 +129,12 @@ void	split_str(t_data *data);
 
 
 void    ft_sig_read(void);
+
+//parser
+
+void ft_pars_token(t_data *data);
+void ft_treatmen_token(t_data *data);
+int ft_check_all_string(t_data *data);
+void ft_filling_info(t_data *data);
+
 #endif
