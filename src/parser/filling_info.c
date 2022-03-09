@@ -162,7 +162,7 @@ void ft_filling_info(t_data *data)
                     {
                         ft_filling_red(des, tmp->next->word);
                         des->red[k] = ft_strdup("2");
-                        des->name_her = ft_strjoin("herdoc_", ft_itoa(p));
+                        des->name_her = generate_heredoke_name(p);
                         des->red[k + 1] = ft_strdup(des->name_her);
                         
                     }
@@ -190,7 +190,6 @@ void ft_filling_info(t_data *data)
         init_heredok(des);
 		des = des->next;
 		p++;
-		//free token
 	}
 	//info_print_content(&data->info);
 	//printf("%s", data->info->arg[0]);
