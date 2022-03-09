@@ -1,46 +1,16 @@
-#include "../include/minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipe.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: wyholger <wyholger@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/03/09 16:55:53 by wyholger          #+#    #+#             */
+/*   Updated: 2022/03/09 19:47:42 by wyholger         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-//int	init_redirect_file(t_data *data, t_info *info)
-//{
-//	int i;
-//	int	filein;
-//
-//	i = 0;
-//	while (info->red[i])
-//	{
-//		if (ft_strcmp(info->red[i], "1") == 0)
-//			filein = open_file(data, info->red[i+1], 1);
-//		if (ft_strcmp(info->red[0], "2") == 0)
-//			filein = open_file(data, info->red[i+1], 2);
-//		if (ft_strcmp(info->red[i], "3") == 0)
-//			filein = open_file(data, info->red[i+1], 0);
-//		i+=2;
-//	}
-//	return (filein);
-//}
-
-int	open_file(t_data *data, char *argv, int i, int flag_fork)
-{
-	int	file;
-
-	file = 0;
-	if (i == 0)
-		file = open(argv, O_WRONLY | O_CREAT | O_APPEND, 0777);
-	else if (i == 1)
-		file = open(argv, O_WRONLY | O_CREAT | O_TRUNC, 0777);
-	else if (i == 2)
-		file = open(argv, O_RDONLY, 0777);
-	if (file == -1)
-	{
-		data->exit_proc_number = 1;
-		ft_putstr_fd("minishell: ", 2);
-		perror(argv);
-		errno = 0;
-		if (flag_fork == 1)
-			exit(1);
-	}
-	return (file);
-}
+#include "../../include/minishell.h"
 
 void	exec_for_pipe(t_data *data, t_info *info)
 {
@@ -58,7 +28,7 @@ void	exec_for_pipe(t_data *data, t_info *info)
 void	start_pipe(t_data *data, t_info *info)
 {
 	pid_t	pid;
-	int 	filein;
+	int		filein;
 
 	pipe(data->pipe_last);
 	pid = fork();
@@ -78,7 +48,6 @@ void	start_pipe(t_data *data, t_info *info)
 	}
 	else
 		close(data->pipe_last[1]);
-
 }
 
 void	mid_pipe(t_data *data, t_info *info)
@@ -106,10 +75,10 @@ void	mid_pipe(t_data *data, t_info *info)
 	}
 }
 
-void 	end_pipe(t_data *data, t_info *info)
+void	end_pipe(t_data *data, t_info *info)
 {
 	pid_t	pid;
-	int 	fileout;
+	int		fileout;
 
 	pid = fork();
 	add_pid(data, pid);
@@ -128,7 +97,7 @@ void 	end_pipe(t_data *data, t_info *info)
 		close(data->pipe_last[0]);
 		exec_for_pipe(data, info);
 	}
-    close(data->pipe_last[0]);
+	close(data->pipe_last[0]);
 }
 
 t_info	*exec_pipe_redirect(t_data *data, t_info *info)

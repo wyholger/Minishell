@@ -84,6 +84,36 @@ void ft_filling_red(t_info *info, char *des)
     
 }
 
+char	*generate_heredoke_name(int p)
+{
+	char	*for_itoa;
+	char	*name;
+
+	for_itoa = ft_itoa(p);
+	name = ft_strjoin("herdoc_", ft_itoa(p));
+	free (for_itoa);
+	return (name);
+}
+
+void	init_heredok(t_info *des)
+{
+	int	file;
+	t_list	*tmp;
+
+	tmp = des->redir;
+	if (des->name_her != NULL)
+	{
+		file = open(des->name_her, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+		while(tmp)
+		{
+			write (file, tmp->word, ft_strlen(tmp->word));
+            write (file, "\n", 1);
+			tmp = tmp->next;
+		}
+        close(file);
+	}
+}
+
 void ft_filling_info(t_data *data)
 {
 	t_list *tmp;
@@ -157,6 +187,7 @@ void ft_filling_info(t_data *data)
 		tmp = tmp->next;
          //ft_lstprint_content(&des->redir);
          //вот тут можно вызвать функцию для создания файла;
+        init_heredok(des);
 		des = des->next;
 		p++;
 		//free token

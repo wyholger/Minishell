@@ -1,4 +1,16 @@
-#include "../include/minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_exec_path.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: wyholger <wyholger@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/03/09 17:10:52 by wyholger          #+#    #+#             */
+/*   Updated: 2022/03/09 19:47:35 by wyholger         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../include/minishell.h"
 
 char	*absolute_path(t_data *data, t_info *info)
 {
@@ -11,7 +23,7 @@ char	*absolute_path(t_data *data, t_info *info)
 	return (path);
 }
 
-char 	*real_way(t_data *data, t_info *info)
+char	*real_way(t_data *data, t_info *info)
 {
 	char	*tmp_path;
 	char	*path;
@@ -31,7 +43,7 @@ char 	*real_way(t_data *data, t_info *info)
 
 char	*path_by_path(t_data *data, t_info *info)
 {
-	int 	i;
+	int		i;
 	char	**split;
 	char	*path;
 	char	*tmp_path;
@@ -40,7 +52,7 @@ char	*path_by_path(t_data *data, t_info *info)
 	tmp_path = ft_strjoin("/", info->command);
 	split = NULL;
 	split = ft_split(search_in_envp(data, "PATH"), ':');
-	while (split[i] )
+	while (split[i])
 	{
 		path = ft_strjoin(split[i], tmp_path);
 		if (access(path, 0) == 0)

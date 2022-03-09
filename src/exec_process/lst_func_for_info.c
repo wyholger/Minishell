@@ -1,6 +1,18 @@
-#include "../include/minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lst_func_for_info.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: wyholger <wyholger@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/03/09 17:09:15 by wyholger          #+#    #+#             */
+/*   Updated: 2022/03/09 19:52:33 by wyholger         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-t_info	*info_new()
+#include "../../include/minishell.h"
+
+t_info	*info_new(void)
 {
 	t_info	*begin;
 
@@ -10,13 +22,13 @@ t_info	*info_new()
 	begin->next = NULL;
 	begin->prev = NULL;
 	begin->arg = NULL;
-    begin->red = NULL;
+	begin->red = NULL;
 	begin->command = NULL;
 	begin->flag = 0;
 	begin->pipe = 0;
 	begin->semocolon = 0;
-    begin->redir = NULL;
-    begin->name_her = NULL;
+	begin->redir = NULL;
+	begin->name_her = NULL;
 	return (begin);
 }
 

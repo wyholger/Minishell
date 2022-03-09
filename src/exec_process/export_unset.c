@@ -1,6 +1,18 @@
-#include "../include/minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export_unset.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: wyholger <wyholger@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/03/09 17:12:33 by wyholger          #+#    #+#             */
+/*   Updated: 2022/03/09 19:47:30 by wyholger         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void 	export_logic(t_data *data, t_info *tmp, int flag, int i)
+#include "../../include/minishell.h"
+
+void	export_logic(t_data *data, t_info *tmp, int flag, int i)
 {
 	char	**for_split;
 	t_list	*tmp_env;
@@ -31,7 +43,7 @@ void	export_error_msg(t_data *data, t_info *tmp)
 
 void	export(t_data *data, t_info *tmp)
 {
-	int 	i;
+	int		i;
 	int		flag;
 
 	i = 1;
@@ -61,7 +73,6 @@ void	unset(t_data *data, t_info *tmp)
 {
 	char	**for_split;
 	t_list	*tmp_env;
-
 
 	if (tmp->arg[1] != NULL)
 	{

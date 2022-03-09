@@ -1,21 +1,22 @@
-SRCS		=	src/main.c\
-				src/free.c\
-				src/search_in_envp.c\
-				src/lst_func_for_info.c\
-				src/pipe.c\
+SRCS		=	src/exec_process/main.c\
+				src/exec_process/free.c\
+				src/exec_process/search_in_envp.c\
+				src/exec_process/lst_func_for_info.c\
+				src/exec_process/pipe.c\
+				src/exec_process/export_no_arg.c\
+				src/exec_process/export_unset.c\
+				src/exec_process/util.c\
+				src/exec_process/util_2.c\
+				src/exec_process/cd.c\
+				src/exec_process/echo_pwd_env.c\
+				src/exec_process/tor_minishell.c\
+				src/exec_process/exit.c\
+				src/exec_process/exec.c\
+				src/exec_process/exec_2.c\
+				src/exec_process/exec_3.c\
+				src/exec_process/init_exec_path.c\
+				src/exec_process/redir.c\
 				src/parser.c\
-				src/export_no_arg.c\
-				src/export_unset.c\
-				src/util.c\
-				src/util_2.c\
-				src/cd.c\
-				src/echo_pwd_env.c\
-				src/tor_minishell.c\
-				src/exit.c\
-				src/exec.c\
-				src/exec_2.c\
-				src/exec_3.c\
-				src/init_exec_path.c\
 				src/filling_info.c\
 				src/utils_token.c\
 				src/treatment_token.c\
@@ -45,7 +46,7 @@ OBJS_PARSER	=	${SRCS_PARSER:.c=.o}
 
 CC			=	gcc
 
-FLAGS		=	-Wall -Wextra -Werror -I/Users/wpitts/.brew/Cellar/readline/8.1.2/include
+FLAGS		=	-Wall -Wextra -Werror -I/Users/$(USER)/.brew/Cellar/readline/8.1.2/include
 
 RM			=	rm -f
 
@@ -59,7 +60,7 @@ all: $(NAME) $(OBJS) $(HDR) $(OBJS_PARSER)
 
 $(NAME):	$(OBJS) $(OBJS_LIBFT) $(OBJS_PARSER)
 		make -C libft
-		$(CC) $(FLAGS)  -Llibft -lft -g $(SRCS) libft/libft.a -lreadline -o $(NAME) -L/Users/wpitts/.brew/Cellar/readline/8.1.2/lib -lreadline
+		$(CC) $(FLAGS)  -Llibft -lft -g $(SRCS) libft/libft.a -lreadline -o $(NAME) -L/Users/$(USER)/.brew/Cellar/readline/8.1.2/lib -lreadline
 
 %.o: %.c $(HDR) $(HDR_LIBFT) Makefile libft/Makefile
 		$(CC) $(FLAGS) -g -c $< -o $@

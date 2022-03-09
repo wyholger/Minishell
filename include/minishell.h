@@ -125,6 +125,7 @@ void	init_pid(t_data *data);
 void	ft_init_struct(t_data *data, char **envp);
 void	init_envp(t_data *data, char **envp);
 void	split_str(t_data *data);
+void	delite_heredoke(t_info	*iter, t_data *data);
 
 
 

@@ -1,4 +1,16 @@
-#include "../include/minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_2.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: wyholger <wyholger@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/03/09 19:56:03 by wyholger          #+#    #+#             */
+/*   Updated: 2022/03/09 19:57:16 by wyholger         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../include/minishell.h"
 
 void	serch_bin(t_data *data, t_info *info, char **env)
 {
@@ -28,7 +40,7 @@ void	exec_bin(t_data *data, t_info *info)
 
 void	init_pid(t_data *data)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	data->pid = malloc(sizeof(pid_t) * (info_size(data->info) + 1));
@@ -43,7 +55,7 @@ void	init_pid(t_data *data)
 
 void	wait_pid(t_data *data)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (data->pid[i] != -1)
@@ -66,7 +78,7 @@ void	wait_pid(t_data *data)
 
 void	add_pid(t_data *data, pid_t pid)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (data->pid[i] != -1)

@@ -1,4 +1,16 @@
-#include "../include/minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd.c                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: wyholger <wyholger@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/03/09 19:58:28 by wyholger          #+#    #+#             */
+/*   Updated: 2022/03/09 20:14:31 by wyholger         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../include/minishell.h"
 
 char	*cd_pre_process(t_data *data, t_info *tmp)
 {
@@ -35,16 +47,19 @@ void	cd_pwd_change(t_data *data)
 	if (tmp_env != NULL)
 	{
 		ft_lstdelone(&tmp_env);
-		ft_lstadd_back(&data->env, ft_lstnew(ft_strjoin("PWD=", data->pwd_now)));
+		ft_lstadd_back(&data->env, ft_lstnew \
+		(ft_strjoin("PWD=", data->pwd_now)));
 	}
 	tmp_env = NULL;
 	tmp_env = search_token_in_envp(data, "OLDPWD");
 	if (tmp_env == NULL)
-		ft_lstadd_back(&data->env, ft_lstnew(ft_strjoin("OLDPWD=", data->pwd_old)));
+		ft_lstadd_back(&data->env, ft_lstnew \
+		(ft_strjoin("OLDPWD=", data->pwd_old)));
 	if (tmp_env != NULL)
 	{
 		ft_lstdelone(&tmp_env);
-		ft_lstadd_back(&data->env, ft_lstnew(ft_strjoin("OLDPWD=", data->pwd_old)));
+		ft_lstadd_back(&data->env, ft_lstnew \
+		(ft_strjoin("OLDPWD=", data->pwd_old)));
 	}
 }
 
@@ -84,4 +99,3 @@ void	cd(t_data *data, t_info *tmp)
 	}
 	free(path);
 }
-
