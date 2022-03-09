@@ -5,13 +5,6 @@ int ft_len_for_pipe2(t_list *token, int i)
 	int k;
 
 	k = 0;
-	// while(k != i)
-	// {
-	// 	token = token->next;
-	// 	k++;
-	// }
-	// if (token->value == 'P')
-	// 	token = token->next;
 	while (token != NULL && i != 0)
 	{
 		if (token->value == 'P')
@@ -35,17 +28,8 @@ int ft_len_for_pipe2(t_list *token, int i)
 int ft_len_for_pipe(t_list *token, int i)
 {
 	int k;
-	//int p;
 
 	k = 0;
-	// while(k != i)
-	// {
-	// 	token = token->next;
-	// 	k++;
-	// }
-	// if (token->value == 'P')
-	// 	token = token->next;
-	// k = 0;
 	while (token != NULL && i != 0)
 	{
 		if (token->value == 'P')
