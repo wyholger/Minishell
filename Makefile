@@ -16,12 +16,15 @@ SRCS		=	src/exec_process/main.c\
 				src/exec_process/exec_3.c\
 				src/exec_process/init_exec_path.c\
 				src/exec_process/redir.c\
-				src/parser.c\
-				src/filling_info.c\
-				src/utils_token.c\
-				src/treatment_token.c\
-				src/split_token.c\
-				src/signal.c
+				src/parser/parser.c\
+				src/parser/filling_info.c\
+				src/parser/utils_token.c\
+				src/parser/treatment_token.c\
+				src/parser/split_token.c\
+				src/parser/signal.c\
+				src/parser/treat_util.c\
+				src/parser/treatment_dol.c\
+				src/parser/split_tok_utils.c
 
 SRCS_LIBFT	=	libft/ft_atoi.c			libft/ft_isdigit.c		libft/ft_memmove.c			libft/ft_strlen.c\
 				libft/ft_bzero.c		libft/ft_isprint.c		libft/ft_memset.c			libft/ft_strncmp.c\

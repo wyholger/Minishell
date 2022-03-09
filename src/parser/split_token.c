@@ -1,21 +1,5 @@
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
-
-void ft_quotes(t_data *data, int *i)
-{
-	(*i)++;
-	while (data->str[*i] != '\'')
-		(*i)++;
-	(*i)++;
-}
-
-void ft_double_quotes(t_data *data, int *i)
-{
-	(*i)++;
-	while (data->str[*i] != '\"')
-		(*i)++;
-	(*i)++;
-}
 
 t_list *ft_token_space(t_data *data, int *i)
 {
@@ -25,10 +9,9 @@ t_list *ft_token_space(t_data *data, int *i)
 	
 	j  = 0;
 	k = data->breakpoint;
-    //new_token = malloc(sizeof(t_list));
 	new_token = malloc(sizeof(char) * (*i - k) + 1);
-	//if(!new_token->word || !new_token)
-		//return(NULL);
+	if(!new_token)
+		return(NULL);
 	
 	while (k != (*i))
 	{
@@ -63,10 +46,9 @@ t_list *ft_token_pipe(t_data *data, int *i)
 	
 	j  = 0;
 	k = data->breakpoint;
-	//new_token = malloc(sizeof(t_list));
 	new_token = malloc(sizeof(char) * (*i - k) + 1);
-//	if(!new_token->word || !new_token)
-//		return(NULL);
+	if(!new_token)
+		return(NULL);
 	while (k != (*i))
 	{
 		new_token[j] = data->str[k];
@@ -87,12 +69,9 @@ t_list *ft_token_spec(t_data *data, int *i)
 	char *new_token;
 	
 	k = data->breakpoint;
-	//new_token = malloc(sizeof(t_list));
 	new_token = malloc(sizeof(char) * 2);
-//	if(!new_token->word || !new_token)
-//	{
-//		return(NULL);
-//	}
+	if(!new_token)
+		return(NULL);
 	new_token[0] = data->str[k];
 	new_token[1] = '\0';
 	(*i)++;
@@ -102,25 +81,6 @@ t_list *ft_token_spec(t_data *data, int *i)
 	return (ft_lstnew(new_token));
 }
 
-int ft_skip_space(t_data *data)
-{
-    int i;
-
-    i = 0;
-    while (data->str[i] == ' ')
-		i++;
-    return (i);
-
-}
-
-
-void ft_help_quo(t_data *data, int *i)
-{
-    if (data->str[*i] == '\'')
-		ft_quotes(data, i);
-	if (data->str[*i] == '\"')
-	    ft_double_quotes(data, i);
-}
 
 
 void ft_pars_token(t_data *data)

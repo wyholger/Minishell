@@ -1,4 +1,4 @@
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 
 int ft_cansel_quote(t_data *data, int *i)

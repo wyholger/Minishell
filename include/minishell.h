@@ -138,5 +138,12 @@ void ft_pars_token(t_data *data);
 void ft_treatmen_token(t_data *data);
 int ft_check_all_string(t_data *data);
 void ft_filling_info(t_data *data);
+int ft_tok_dollar(t_list *token, int i, t_data *data);
+int ft_tilda(t_list *token, t_data *data);
+void ft_token_red_treat(t_list *token);
+void ft_quotes(t_data *data, int *i);
+void ft_double_quotes(t_data *data, int *i);
+int ft_skip_space(t_data *data);
+void ft_help_quo(t_data *data, int *i);
 
 #endif

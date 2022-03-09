@@ -59,6 +59,7 @@ int	main(int argc, char **argv, char **envp)
 		{
 			printf("\033[1Aminishell$ exit\n");
 			rl_clear_history();
+            //exit_my(&data, data.info);
 			exit(0);
 		}
 		if (data.str != 0)

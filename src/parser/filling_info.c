@@ -1,4 +1,4 @@
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 int ft_len_for_pipe2(t_list *token, int i)
 {
