@@ -6,7 +6,7 @@
 /*   By: wyholger <wyholger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 19:34:15 by wyholger          #+#    #+#             */
-/*   Updated: 2022/03/09 21:38:28 by wyholger         ###   ########.fr       */
+/*   Updated: 2022/03/14 17:47:15 by wyholger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,7 @@ int	main(int argc, char **argv, char **envp)
 		data.str = 0;
 		data.str = readline(MINISHELL_MSG);
 		if (data.str == 0)
-		{
-			printf("\033[1Aminishell$ exit\n");
-			rl_clear_history();
             signal_exit(&data);
-            //exit_my(&data, data.info);
-			exit(0);
-		}
 		if (data.str != 0)
 			main_process(&data);
 	}
