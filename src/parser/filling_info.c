@@ -203,7 +203,7 @@ void ft_filling_info(t_data *data)
 		des = des->next;
 		p++;
 	}
-	//info_print_content(&data->info);
+	// info_print_content(&data->info);
 	//printf("%s", data->info->arg[0]);
 	//printf("%s", des->command);
 	//ft_lstprint_content(&data->token);

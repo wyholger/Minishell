@@ -6,7 +6,7 @@
 /*   By: wyholger <wyholger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 19:58:04 by wyholger          #+#    #+#             */
-/*   Updated: 2022/03/09 19:58:15 by wyholger         ###   ########.fr       */
+/*   Updated: 2022/03/14 20:36:50 by wyholger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@ void	echo(t_data *data, t_info *tmp)
 	int	i;
 
 	i = 1;
-	if (tmp->arg != NULL && ft_strcmp(tmp->arg[1], "$?") == 0)
+	if (tmp->arg[1] != NULL && ft_strcmp(tmp->arg[1], "$?") == 0)
 	{
 		ft_putnbr_fd(data->exit_proc_number, 1);
 		if (tmp->flag == 0)
 			ft_putstr_fd("\n", 1);
 	}
-	else if (tmp->arg != NULL)
+	else if (tmp->arg[1] != NULL)
 	{
 		while (tmp->arg[i])
 		{
@@ -35,6 +35,8 @@ void	echo(t_data *data, t_info *tmp)
 		if (tmp->flag == 0)
 			ft_putstr_fd("\n", 1);
 	}
+	else if (tmp->flag == 0)
+		ft_putstr_fd("\n", 1);
 	exit_exec(data, 0);
 }
 
