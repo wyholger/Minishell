@@ -6,6 +6,7 @@ t_list *ft_token_space(t_data *data, int *i)
 	int k;
 	int j;
 	char *new_token;
+    t_list *new;
 	
 	j  = 0;
 	k = data->breakpoint;
@@ -23,7 +24,9 @@ t_list *ft_token_space(t_data *data, int *i)
 	while (data->str[(*i)] == ' ')
 			(*i)++;
 	data->breakpoint = *i;
-	return (ft_lstnew(new_token));
+    new = ft_lstnew(new_token);
+    free(new_token);
+	return (new);
 }
 
 
@@ -43,6 +46,7 @@ t_list *ft_token_pipe(t_data *data, int *i)
 	int k;
 	int j;
 	char *new_token;
+    t_list *new;
 	
 	j  = 0;
 	k = data->breakpoint;
@@ -59,7 +63,9 @@ t_list *ft_token_pipe(t_data *data, int *i)
 	while (data->str[(*i)] == ' ')
 			(*i)++;
 	data->breakpoint = *i;
-	return (ft_lstnew(new_token));
+    new = ft_lstnew(new_token);
+    free(new_token);
+	return (new);
 }
 
 
@@ -67,6 +73,7 @@ t_list *ft_token_spec(t_data *data, int *i)
 {
 	int k;
 	char *new_token;
+    t_list *new;
 	
 	k = data->breakpoint;
 	new_token = malloc(sizeof(char) * 2);
@@ -78,7 +85,9 @@ t_list *ft_token_spec(t_data *data, int *i)
 	while (data->str[(*i)] == ' ')
 			(*i)++;
 	data->breakpoint = *i;
-	return (ft_lstnew(new_token));
+    new = ft_lstnew(new_token);
+    free(new_token);
+	return (new);
 }
 
 

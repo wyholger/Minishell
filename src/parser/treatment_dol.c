@@ -15,17 +15,13 @@ int ft_alpha_help(t_list *token)
     return (j - i);
 }
 
-int ft_it_is_key(t_list *token, char *str, int j)
+int ft_it_is_key(t_list *token, char *str, int i, int k)
 {
     char *tmp;
-    int i;
-    int k;
     int h;
     int n;
     
     n = 0;
-    k = 0;
-    i = 0;
     h = 0;
     tmp = malloc(sizeof(char) * ft_strlen(token->word) + ft_strlen(str));
     if (!tmp)
@@ -42,8 +38,6 @@ int ft_it_is_key(t_list *token, char *str, int j)
                 n++;
                 h++;
             }
-            //printf("%d\n", k);
-              printf("%d\n", j);
             k = k + ft_alpha_help(token);
         }
         tmp[h] = token->word[k];
@@ -172,14 +166,14 @@ int ft_dollar_alpha(t_list * token, int j)
 }
 
 
-int ft_dollar(t_list *token, char *str, t_data *data, int i)
+int ft_dollar(t_list *token, char *str, t_data *data)
 {
     char *tmp;
 
     tmp = search_in_envp(data, str);
     if (tmp != NULL)
     {
-        ft_it_is_key(token, tmp, i);
+        ft_it_is_key(token, tmp, 0, 0);
         free(tmp);
     }
     else
@@ -215,7 +209,7 @@ int ft_tok_dollar(t_list *token, int i, t_data *data)
         i++;
     }
     tmp[k] = '\0';
-    ft_dollar(token, tmp, data, j);
+    ft_dollar(token, tmp, data);
     free(tmp);
     return (0);
 }
