@@ -11,8 +11,7 @@ void ft_parser(t_data *data)
 	{
 		ft_pars_token(data);
 		ft_treatmen_token(data);
-		ft_filling_info(data);
-		//info_print_content(&data->info);
+		ft_filling_info(data, 0);
 	}
 		
    else
