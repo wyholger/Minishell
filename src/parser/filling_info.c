@@ -74,7 +74,7 @@ char    *generate_heredoke_name(int p)
     char    *name;
 
     for_itoa = ft_itoa(p);
-    name = ft_strjoin("herdoc_", ft_itoa(p));
+    name = ft_strjoin("herdoc_", for_itoa);
     free (for_itoa);
     return (name);
 }
@@ -296,5 +296,5 @@ void ft_filling_info(t_data * data, int p)
         des = des->next;
         p++;
     }
-    info_print_content(&data->info);
+   // info_print_content(&data->info);
 }
