@@ -16,6 +16,7 @@ SRCS		=	src/exec_process/main.c\
 				src/exec_process/exec_3.c\
 				src/exec_process/init_exec_path.c\
 				src/exec_process/redir.c\
+				src/exec_process/pipe_2.c\
 				src/parser/parser.c\
 				src/parser/filling_info.c\
 				src/parser/utils_token.c\

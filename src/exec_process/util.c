@@ -6,7 +6,7 @@
 /*   By: wyholger <wyholger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 14:46:53 by wyholger          #+#    #+#             */
-/*   Updated: 2022/03/14 18:19:53 by wyholger         ###   ########.fr       */
+/*   Updated: 2022/03/23 16:29:27 by wyholger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	delite_heredoke(t_info	*iter, t_data *data)
 			free(tmp);
 			unlink(pwd_heredoke);
 			free(pwd_heredoke);
-            free(iter->name_her);
+			free(iter->name_her);
 		}
 		iter = iter->next;
 	}

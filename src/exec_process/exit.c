@@ -6,7 +6,7 @@
 /*   By: wyholger <wyholger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 19:54:51 by wyholger          #+#    #+#             */
-/*   Updated: 2022/03/14 17:48:04 by wyholger         ###   ########.fr       */
+/*   Updated: 2022/03/23 16:33:33 by wyholger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	check_str_is_int(char *str)
 
 void	signal_exit(t_data *data)
 {
-    rl_clear_history();
+	rl_clear_history();
 	ft_putstr_fd("\033[1Aminishell$ exit\n", 1);
 	ft_lstclear(&data->env);
 	info_clear(&data->info);

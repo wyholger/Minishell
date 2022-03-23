@@ -6,7 +6,7 @@
 /*   By: wyholger <wyholger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 19:34:15 by wyholger          #+#    #+#             */
-/*   Updated: 2022/03/14 18:18:46 by wyholger         ###   ########.fr       */
+/*   Updated: 2022/03/23 16:33:13 by wyholger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	main_process(t_data *data)
 	info_clear(&data->info);
 	data->info = NULL;
 	free(data->str);
-    free(data->pid);
+	free(data->pid);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -57,7 +57,7 @@ int	main(int argc, char **argv, char **envp)
 		data.str = 0;
 		data.str = readline(MINISHELL_MSG);
 		if (data.str == 0)
-            signal_exit(&data);
+			signal_exit(&data);
 		if (data.str != 0)
 			main_process(&data);
 	}

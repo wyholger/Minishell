@@ -6,7 +6,7 @@
 /*   By: wyholger <wyholger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 16:55:53 by wyholger          #+#    #+#             */
-/*   Updated: 2022/03/09 19:47:42 by wyholger         ###   ########.fr       */
+/*   Updated: 2022/03/23 16:12:40 by wyholger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,12 @@ void	start_pipe(t_data *data, t_info *info)
 			dup2(filein, STDIN_FILENO);
 			close(filein);
 		}
-		close(data->pipe_last[0]);
-		dup2(data->pipe_last[1], STDOUT_FILENO);
-		close(data->pipe_last[1]);
+		if (pipe_redir_for_out_redir(data, info) == 1)
+		{
+			close(data->pipe_last[0]);
+			dup2(data->pipe_last[1], STDOUT_FILENO);
+			close(data->pipe_last[1]);
+		}
 		exec_for_pipe(data, info);
 	}
 	else

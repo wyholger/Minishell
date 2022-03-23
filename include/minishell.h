@@ -127,6 +127,7 @@ void	init_envp(t_data *data, char **envp);
 void	split_str(t_data *data);
 void	delite_heredoke(t_info	*iter, t_data *data);
 void	signal_exit(t_data *data);
+int		pipe_redir_for_out_redir(t_data *data, t_info *info);
 
 
 
