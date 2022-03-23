@@ -146,5 +146,15 @@ void ft_quotes(t_data *data, int *i);
 void ft_double_quotes(t_data *data, int *i);
 int ft_skip_space(t_data *data);
 void ft_help_quo(t_data *data, int *i);
+int ft_len_for_pipe2(t_list *token, int i);
+int ft_len_for_pipe(t_list *token, int i);
+void ft_filling_red(t_info *info, char *des);
+char    *generate_heredoke_name(int p);
+void    init_heredok(t_info *des);
+int ft_check_redmal(t_list *token, int i);
+void ft_fill_comm(t_info *des, int p, t_data *data);
+void ft_des_mal(t_info *des, int p, t_data *data);
+int ft_fil_fl(t_info *des, t_data *data, int p);
+void ft_red_fil(t_list *tmp, t_list *tmp1, t_info *des, int *k);
 
 #endif
