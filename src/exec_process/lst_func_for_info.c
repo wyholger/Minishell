@@ -6,7 +6,7 @@
 /*   By: wyholger <wyholger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 17:09:15 by wyholger          #+#    #+#             */
-/*   Updated: 2022/03/09 19:52:33 by wyholger         ###   ########.fr       */
+/*   Updated: 2022/03/23 18:24:32 by wpitts           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_info	*info_new(void)
 void	info_add_back(t_info **lst, t_info *new)
 {
 	t_info	*tmp;
-    
+
 	if (*lst == NULL)
 	{
 		*lst = new;
@@ -79,60 +79,6 @@ int	info_clear(t_info **lst)
 		}
 	}
 	return (0);
-}
-
-int	info_print_content(t_info **lst)
-{
-	int     j;
-	int		i;
-	t_info	*iter;
-
-	i = 0;
-	j = 0;
-	iter = *lst;
-	while (iter != NULL)
-	{
-		printf("# %d:\n", iter->count_command);
-		printf("cmd: %7s; arg: ", iter->command);
-		if (iter->arg != NULL)
-		{
-			while (iter->arg[j])
-			{
-				if (iter->arg[j+1])
-					printf("%5s, ", iter->arg[j]);
-				else 
-					printf("%5s; ", iter->arg[j]);
-				j++;
-			}
-		}
-		else
-			printf("%5s; ", "(null)");
-		j = 0;
-		printf("flag: %3d; red: ", iter->flag);
-		if (iter->red != NULL)
-		{
-			while (iter->red[j])
-			{
-				if (iter->red[j+1])
-					printf("%5s, ", iter->red[j]);
-				else 
-					printf("%5s; ", iter->red[j]);
-				j++;
-			}
-		}
-		else
-			printf("%5s; ", "(null)");
-		printf("pipe: %2d; sem(';'): %2d\n", iter->pipe, iter->semocolon);
-
-		// ft_putstr_fd(iter->command, 1);
-		// ft_putstr_fd(" Arg ", 1);
-		// if (iter->prev)
-		// ft_putstr_fd(iter->prev->word, 1);
-		// ft_putchar_fd('\n', 1);
-		iter = iter->next;
-		i++;
-	}
-	return (i);
 }
 
 int	info_size(t_info *lst)
