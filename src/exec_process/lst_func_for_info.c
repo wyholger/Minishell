@@ -35,7 +35,7 @@ t_info	*info_new(void)
 void	info_add_back(t_info **lst, t_info *new)
 {
 	t_info	*tmp;
-
+    
 	if (*lst == NULL)
 	{
 		*lst = new;
