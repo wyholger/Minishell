@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_search_word_in_str_on_end.c                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: wpitts <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/03/23 18:43:24 by wpitts            #+#    #+#             */
+/*   Updated: 2022/03/23 18:43:27 by wpitts           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
-int		ft_search_word_in_str_on_end(char *str, char *word)
+int	ft_search_word_in_str_on_end(char *str, char *word)
 {
-	int i;
-	int len_str;
-	int len_word;
+	int	i;
+	int	len_str;
+	int	len_word;
 
 	i = 0;
 	if (!str || !word)
