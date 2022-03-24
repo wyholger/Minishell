@@ -34,9 +34,9 @@ void	main_process(t_data *data)
 {
 	add_history(data->str);
 	ft_parser(data);
-//	init_pid(data);
-//	exec(data);
-//	wait_pid(data);
+	init_pid(data);
+	exec(data);
+	wait_pid(data);
 	delite_heredoke(data->info, data);
 	info_clear(&data->info);
 	data->info = NULL;

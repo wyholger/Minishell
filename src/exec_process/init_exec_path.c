@@ -6,7 +6,7 @@
 /*   By: wyholger <wyholger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 17:10:52 by wyholger          #+#    #+#             */
-/*   Updated: 2022/03/09 19:47:35 by wyholger         ###   ########.fr       */
+/*   Updated: 2022/03/24 19:30:16 by wyholger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ char	*path_by_path(t_data *data, t_info *info)
 	tmp_path = ft_strjoin("/", info->command);
 	split = NULL;
 	split = ft_split(search_in_envp(data, "PATH"), ':');
+	if (split == NULL)
+		return (NULL);	
 	while (split[i])
 	{
 		path = ft_strjoin(split[i], tmp_path);

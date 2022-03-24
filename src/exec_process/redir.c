@@ -6,7 +6,7 @@
 /*   By: wyholger <wyholger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 16:58:29 by wyholger          #+#    #+#             */
-/*   Updated: 2022/03/23 16:31:43 by wyholger         ###   ########.fr       */
+/*   Updated: 2022/03/24 20:49:41 by wyholger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,16 @@ int	open_file(t_data *data, char *argv, int i, int flag_fork)
 	return (file);
 }
 
+int	check_on_open_in_file(int fileout, int pre_fileout)
+{
+	if (fileout != -1)
+	{
+		close(fileout);
+		fileout = pre_fileout;
+	}
+	return fileout;
+}
+
 int	init_redirect_file_for_in(t_data *data, t_info *info, int flag_fork)
 {
 	int	i;
@@ -45,7 +55,10 @@ int	init_redirect_file_for_in(t_data *data, t_info *info, int flag_fork)
 	while (info->red[i])
 	{
 		if (ft_strcmp(info->red[i], "2") == 0)
+		{
 			filein = open_file(data, info->red[i + 1], 2, flag_fork);
+			// redir_error_msg(filein, info->red[i + 1]);
+		}
 		else
 			break ;
 		i += 2;
@@ -57,6 +70,7 @@ int	init_redirect_file_for_out(t_data *data, t_info *info, int flag_fork)
 {
 	int	i;
 	int	fileout;
+	int pre_fileout;
 
 	fileout = -1;
 	i = 0;
@@ -66,6 +80,12 @@ int	init_redirect_file_for_out(t_data *data, t_info *info, int flag_fork)
 			fileout = open_file(data, info->red[i + 1], 1, flag_fork);
 		if (ft_strcmp(info->red[i], "3") == 0)
 			fileout = open_file(data, info->red[i + 1], 0, flag_fork);
+		if (ft_strcmp(info->red[i], "2") == 0)
+		{
+			pre_fileout = open_file(data, info->red[i + 1], 2, flag_fork);
+			if (pre_fileout != -1)
+				close(pre_fileout);
+		}
 		if (fileout != -1 && info->red[i + 2] != NULL && \
 		((ft_strcmp(info->red[i + 2], "1") == 0) || \
 		(ft_strcmp(info->red[i + 2], "3") == 0)))
@@ -88,7 +108,7 @@ void	init_redirect(t_data *data, t_info *info, int flag_fork, int flag_in)
 		{
 			dup2(filein, STDIN_FILENO);
 			close(filein);
-		}
+		}		
 	}
 	if (info->red != NULL)
 	{

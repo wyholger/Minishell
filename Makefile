@@ -27,7 +27,8 @@ SRCS		=	src/exec_process/main.c\
 				src/parser/treatment_dol.c\
 				src/parser/split_tok_utils.c\
 				src/parser/fill_util.c\
-				src/parser/fill_util1.c
+				src/parser/fill_util1.c\
+				src/parser/dol_util.c
 
 SRCS_LIBFT	=	libft/ft_atoi.c			libft/ft_isdigit.c		libft/ft_memmove.c			libft/ft_strlen.c\
 				libft/ft_bzero.c		libft/ft_isprint.c		libft/ft_memset.c			libft/ft_strncmp.c\
