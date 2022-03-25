@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wpitts <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: wyholger <wyholger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 18:04:44 by wpitts            #+#    #+#             */
-/*   Updated: 2022/03/23 18:21:13 by wpitts           ###   ########.fr       */
+/*   Updated: 2022/03/25 15:27:27 by wyholger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void	export_if_no_arg(t_data *data);
 void	exit_exec(t_data *data, int status);
 void	export(t_data *data, t_info *tmp);
 void	export_logic(t_data *data, t_info *tmp, int flag, int i);
-void	export_error_msg(t_data *data, t_info *tmp);
+void	export_error_msg(t_data *data, char *arg);
 void	cd(t_data *data, t_info *tmp);
 void	unset(t_data *data, t_info *tmp);
 void	decrement_shell_in_env(t_data *data);

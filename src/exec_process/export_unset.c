@@ -6,7 +6,7 @@
 /*   By: wyholger <wyholger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 17:12:33 by wyholger          #+#    #+#             */
-/*   Updated: 2022/03/24 18:39:28 by wyholger         ###   ########.fr       */
+/*   Updated: 2022/03/25 15:27:40 by wyholger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ void	export_logic(t_data *data, t_info *tmp, int flag, int i)
 		exit_exec(data, 0);
 }
 
-void	export_error_msg(t_data *data, t_info *tmp)
+void	export_error_msg(t_data *data, char *arg)
 {
 	ft_putstr_fd("minishell: export: ", 2);
-	ft_putstr_fd(tmp->arg[1], 2);
+	ft_putstr_fd(arg, 2);
 	ft_putstr_fd(": not a valid identifier\n", 2);
 	exit_exec(data, 1);
 }
@@ -56,7 +56,7 @@ void	export(t_data *data, t_info *tmp)
 				export_logic(data, tmp, flag, i);
 			else
 			{
-				export_error_msg(data, tmp);
+				export_error_msg(data, tmp->arg[i]);
 				flag = 1;
 			}
 			i++;

@@ -6,7 +6,7 @@
 /*   By: wyholger <wyholger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 19:54:51 by wyholger          #+#    #+#             */
-/*   Updated: 2022/03/23 16:33:33 by wyholger         ###   ########.fr       */
+/*   Updated: 2022/03/25 15:09:39 by wyholger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,17 @@ void	exit_my(t_data *data, t_info *tmp)
 {
 	if (tmp->arg[1] != NULL && check_str_is_int(tmp->arg[1]) == 1)
 		data->exit_proc_number = ft_atoi(tmp->arg[1]);
-	if (count_arg(tmp->arg) > 2)
+	ft_putstr_fd("exit\n", 1);
+	if (tmp->arg[1] != NULL && check_str_is_int(tmp->arg[1]) == 0)
+	{
+		ft_putstr_fd("minishell: exit: numeric argument required\n", 2);
+		data->exit_proc_number = 255;
+	}
+	else if (count_arg(tmp->arg) > 2)
 	{
 		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
-		data->exit_proc_number = 130;
-		return ;
+		data->exit_proc_number = 1;
 	}
-	ft_putstr_fd("exit\n", 1);
 	ft_lstclear(&data->env);
 	info_clear(&data->info);
 	free(data->pid);
