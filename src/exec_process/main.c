@@ -6,7 +6,7 @@
 /*   By: wyholger <wyholger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 19:34:15 by wyholger          #+#    #+#             */
-/*   Updated: 2022/03/23 16:33:13 by wyholger         ###   ########.fr       */
+/*   Updated: 2022/04/01 18:44:00 by wpitts           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	main_process(t_data *data)
 {
 	add_history(data->str);
 	ft_parser(data);
+	ft_exec_sig();
 	init_pid(data);
 	exec(data);
 	wait_pid(data);

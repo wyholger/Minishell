@@ -6,7 +6,7 @@
 /*   By: wyholger <wyholger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 18:04:44 by wpitts            #+#    #+#             */
-/*   Updated: 2022/04/01 18:48:13 by wyholger         ###   ########.fr       */
+/*   Updated: 2022/04/01 18:59:01 by wyholger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,5 +169,6 @@ int		ft_help_dquo(t_list *token, t_data *data, int i);
 int		ft_help_dquo2(t_list *token);
 int		ft_help_quo1(t_list *token);
 void	ft_red_com(t_list *tmp, t_info *des, int p);
+void	ft_exec_sig(void);
 
 #endif

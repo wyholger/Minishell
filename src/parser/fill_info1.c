@@ -6,7 +6,7 @@
 /*   By: wpitts <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 16:13:58 by wpitts            #+#    #+#             */
-/*   Updated: 2022/04/01 16:20:34 by wpitts           ###   ########.fr       */
+/*   Updated: 2022/04/01 18:02:02 by wpitts           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	ft_cd_com(t_info *des)
 {
+	free(des->arg);
+	des->arg = malloc(sizeof(char **) * 3);
 	des->command = ft_strdup("cd");
 	des->arg[0] = ft_strdup("cd");
 	des->arg[1] = ft_strdup(".");
@@ -22,21 +24,24 @@ void	ft_cd_com(t_info *des)
 
 void	ft_just_red(t_list *tmp, t_info *des, int p)
 {
-	int	k;
+	int		k;
+	t_list	*tmp1;
 
 	k = 0;
+	tmp1 = tmp;
 	ft_cd_com(des);
-	while (tmp && tmp->value != 'P')
+	while (tmp1 && tmp1->value != 'P')
 	{
-		if (tmp->value == 'R')
+		if (tmp1->value == 'R')
 		{
-			if (ft_strcmp(tmp->word, "4") == 0)
+			if (ft_strcmp(tmp1->word, "4") == 0)
 				des->name_her = generate_heredoke_name(p);
-			ft_red_fil(tmp, tmp->next, des, &k);
-			tmp = tmp->next;
+			ft_red_fil(tmp1, tmp1->next, des, &k);
+			tmp1 = tmp1->next;
 		}
-		tmp = tmp->next;
+		tmp1 = tmp1->next;
 	}
+	des->red[k] = NULL;
 }
 
 void	ft_fil_com_arg(t_list *tmp, int i, t_info *des)
