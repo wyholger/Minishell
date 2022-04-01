@@ -6,7 +6,7 @@
 /*   By: wyholger <wyholger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 17:10:52 by wyholger          #+#    #+#             */
-/*   Updated: 2022/03/24 19:30:16 by wyholger         ###   ########.fr       */
+/*   Updated: 2022/04/01 18:49:37 by wyholger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,16 @@ char	*real_way(t_data *data, t_info *info)
 	return (path);
 }
 
+int	check_path(char *path, t_data *data)
+{
+	if (access(path, 0) == 0)
+	{
+		data->flag_old_pwd = 1;
+		return (1);
+	}
+	return (0);
+}
+
 char	*path_by_path(t_data *data, t_info *info)
 {
 	int		i;
@@ -53,15 +63,12 @@ char	*path_by_path(t_data *data, t_info *info)
 	split = NULL;
 	split = ft_split(search_in_envp(data, "PATH"), ':');
 	if (split == NULL)
-		return (NULL);	
+		return (NULL);
 	while (split[i])
 	{
 		path = ft_strjoin(split[i], tmp_path);
-		if (access(path, 0) == 0)
-		{
-			data->flag_old_pwd = 1;
+		if (check_path(path, data))
 			break ;
-		}
 		i++;
 		free(path);
 		path = NULL;

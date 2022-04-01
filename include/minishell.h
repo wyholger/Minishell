@@ -6,7 +6,7 @@
 /*   By: wyholger <wyholger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 18:04:44 by wpitts            #+#    #+#             */
-/*   Updated: 2022/04/01 16:25:26 by wpitts           ###   ########.fr       */
+/*   Updated: 2022/04/01 18:48:13 by wyholger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,8 @@ void	delite_heredoke(t_info	*iter, t_data *data);
 void	signal_exit(t_data *data);
 void	ft_sig_read(void);
 int		pipe_redir_for_out_redir(t_data *data, t_info *info);
+int		exit_check_overflow(int flag_singl, char *str);
+int		check_path(char *path, t_data *data);
 
 //parser
 

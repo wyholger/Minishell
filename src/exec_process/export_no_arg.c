@@ -6,7 +6,7 @@
 /*   By: wyholger <wyholger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 17:13:17 by wyholger          #+#    #+#             */
-/*   Updated: 2022/03/25 15:20:50 by wyholger         ###   ########.fr       */
+/*   Updated: 2022/04/01 18:50:07 by wyholger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	print_env_for_export(t_list *lst)
 			ft_putstr_fd(split[1], 1);
 			ft_putstr_fd("\"\n", 1);
 		}
-		else 
+		else
 			ft_putstr_fd("\n", 1);
 		split_free(split);
 		lst = lst->next;

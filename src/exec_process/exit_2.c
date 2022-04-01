@@ -1,49 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec.c                                             :+:      :+:    :+:   */
+/*   exit_2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wyholger <wyholger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/09 19:57:28 by wyholger          #+#    #+#             */
-/*   Updated: 2022/04/01 18:51:42 by wyholger         ###   ########.fr       */
+/*   Created: 2022/04/01 18:20:01 by wyholger          #+#    #+#             */
+/*   Updated: 2022/04/01 18:53:09 by wyholger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	init_pipe_size(t_info *tmp)
+int	exit_check_overflow(int flag_singl, char *str)
 {
-	int	i;
+	int		i;
+	char	*tmp;
 
 	i = 0;
-	while (tmp != NULL)
+	if (flag_singl == 1)
+		i = 1;
+	if (str[i] != '9')
+		return (1);
+	tmp = malloc(10);
+	ft_strlcpy(tmp, &str[i + 1], 10);
+	flag_singl = ft_atoi(tmp);
+	if (flag_singl > 223372036)
 	{
-		if (tmp->pipe == 1)
-			i++;
-		tmp = tmp->next;
+		free(tmp);
+		return (0);
 	}
-	return (i);
-}
-
-void	exec_cmd_one(t_data *data, t_info *info)
-{
-	pid_t	pid;
-
-	if (check_on_bild_cmd(info) == 1)
+	ft_strlcpy(tmp, &str[i + 10], 10);
+	flag_singl = ft_atoi(tmp);
+	if (flag_singl > 854775807)
 	{
-		init_redirect(data, info, 0, 0);
-		exec_build_cmd(data, info);
-		dup2(data->std_out, STDOUT_FILENO);
+		free(tmp);
+		return (0);
 	}
-	else
-	{
-		pid = fork();
-		add_pid(data, pid);
-		if (pid == 0)
-		{
-			init_redirect(data, info, 1, 1);
-			exec_bin(data, info);
-		}
-	}
+	return (1);
 }

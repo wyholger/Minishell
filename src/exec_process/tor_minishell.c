@@ -6,7 +6,7 @@
 /*   By: wyholger <wyholger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 14:48:42 by wyholger          #+#    #+#             */
-/*   Updated: 2022/03/25 15:36:56 by wyholger         ###   ########.fr       */
+/*   Updated: 2022/03/25 16:02:00 by wyholger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ void	increment_shell_in_env(t_data *data)
 		for_split = ft_split(tmp_env->word, '=');
 		lvl = ft_atoi(for_split[1]);
 		lvl++;
-        if (lvl > 1000)
-        {
-            ft_putstr_fd("minishell: warning: shell level ", 2);
-            ft_putstr_fd("(1001) too high, resetting to 1\n", 2);
-            lvl = 1;
-        }
+		if (lvl > 1000)
+		{
+			ft_putstr_fd("minishell: warning: shell level ", 2);
+			ft_putstr_fd("(1001) too high, resetting to 1\n", 2);
+			lvl = 1;
+		}
 		split_free(for_split);
 		ft_lstdelone(&tmp_env);
 		ft_lstadd_back(&data->env, ft_lstnew(ft_strjoin("SHLVL=", \

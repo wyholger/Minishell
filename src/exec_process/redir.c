@@ -6,7 +6,7 @@
 /*   By: wyholger <wyholger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 16:58:29 by wyholger          #+#    #+#             */
-/*   Updated: 2022/03/24 20:49:41 by wyholger         ###   ########.fr       */
+/*   Updated: 2022/04/01 18:43:24 by wyholger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	check_on_open_in_file(int fileout, int pre_fileout)
 		close(fileout);
 		fileout = pre_fileout;
 	}
-	return fileout;
+	return (fileout);
 }
 
 int	init_redirect_file_for_in(t_data *data, t_info *info, int flag_fork)
@@ -57,7 +57,6 @@ int	init_redirect_file_for_in(t_data *data, t_info *info, int flag_fork)
 		if (ft_strcmp(info->red[i], "2") == 0)
 		{
 			filein = open_file(data, info->red[i + 1], 2, flag_fork);
-			// redir_error_msg(filein, info->red[i + 1]);
 		}
 		else
 			break ;
@@ -70,7 +69,7 @@ int	init_redirect_file_for_out(t_data *data, t_info *info, int flag_fork)
 {
 	int	i;
 	int	fileout;
-	int pre_fileout;
+	int	pre_fileout;
 
 	fileout = -1;
 	i = 0;
