@@ -73,7 +73,7 @@ void	ft_fill_arg(t_info *des, t_data *data, int p, int c)
 		ft_fill_arg1(des, tmp, p, 0);
 }
 
-void	ft_filling_info(t_data *data, int p)
+void	ft_filling_info(t_data *data, int p, int check)
 {
 	t_info	*des;
 	t_list	*tmp;
@@ -84,8 +84,8 @@ void	ft_filling_info(t_data *data, int p)
 	{
 		des = info_new();
 		ft_des_mal(des, p, data);
-		ft_fill_comm(des, p, data);
-		if (tmp->next)
+		check = ft_fill_comm(des, p, data);
+		if (tmp->next && check == 0)
 		{
 			tmp = tmp->next;
 			ft_fill_arg(des, data, p, 0);

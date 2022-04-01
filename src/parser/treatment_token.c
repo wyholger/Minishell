@@ -6,25 +6,11 @@
 /*   By: wpitts <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 16:29:00 by wpitts            #+#    #+#             */
-/*   Updated: 2022/03/23 17:36:47 by wpitts           ###   ########.fr       */
+/*   Updated: 2022/04/01 14:55:55 by wpitts           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-int	ft_help_dquo(t_list *token, t_data *data, int i)
-{
-	int	k;
-
-	k = i + 1;
-	while (token->word[k] != '\"')
-	{
-		if (token->word[k] == '$')
-			ft_tok_dollar(token, k, data);
-		k++;
-	}
-	return (0);
-}
 
 int	ft_tok_dquo(t_list *token, int i, t_data *data, int j)
 {
@@ -34,7 +20,8 @@ int	ft_tok_dquo(t_list *token, int i, t_data *data, int j)
 
 	k = i + 1;
 	h = 0;
-	ft_help_dquo(token, data, i);
+	if (ft_help_dquo(token, data, i) == 0 && ft_help_dquo2(token) == 1)
+		return (1);
 	tmp = malloc(sizeof(char) * ft_strlen(token->word) - 1);
 	if (!tmp)
 		return (1);
@@ -51,18 +38,18 @@ int	ft_tok_dquo(t_list *token, int i, t_data *data, int j)
 	tmp[h] = '\0';
 	free(token->word);
 	token->word = tmp;
-	return (0);
+	return (k);
 }
 
-int	ft_tok_quo(t_list *token, int i, int *k)
+int	ft_tok_quo(t_list *token, int i, int *k, int j)
 {
-	int		j;
 	int		h;
 	char	*tmp;
 
 	*k = i + 1;
-	j = 0;
 	h = 0;
+	if (ft_help_quo1(token) == 1)
+		return (0);
 	tmp = malloc(sizeof(char) * ft_strlen(token->word) - 1);
 	if (!tmp)
 		return (1);
@@ -95,9 +82,9 @@ void	ft_token_word(t_list *token, t_data *data)
 		if (token->word[0] == '~')
 			check = ft_tilda(token, data, 0, 0);
 		if (token->word[i] == '\'')
-			check = ft_tok_quo(token, data->breakpoint, &i);
+			check = ft_tok_quo(token, data->breakpoint, &i, 0);
 		if (token->word[i] == '\"')
-			check = ft_tok_dquo(token, data->breakpoint, data, 0);
+			i = ft_tok_dquo(token, data->breakpoint, data, 0);
 		if (token->word[i] == '$')
 		{
 			ft_tok_dollar(token, data->breakpoint, data);

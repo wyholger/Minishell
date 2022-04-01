@@ -22,7 +22,7 @@ void	ft_parser(t_data *data)
 	{
 		ft_pars_token(data, ft_skip_space(data));
 		ft_treatmen_token(data);
-		ft_filling_info(data, 0);
+		ft_filling_info(data, 0, 0);
 	}
 	else
 		printf("Syntax Error\n");

@@ -6,7 +6,7 @@
 /*   By: wpitts <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 15:16:42 by wpitts            #+#    #+#             */
-/*   Updated: 2022/03/23 15:29:11 by wpitts           ###   ########.fr       */
+/*   Updated: 2022/04/01 16:22:54 by wpitts           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	ft_check_redmal(t_list *token, int i)
 	return (0);
 }
 
-void	ft_fill_comm(t_info *des, int p, t_data *data)
+int	ft_fill_comm(t_info *des, int p, t_data *data)
 {
 	t_list	*tmp;
 
@@ -47,9 +47,18 @@ void	ft_fill_comm(t_info *des, int p, t_data *data)
 			tmp = tmp->next;
 		p--;
 	}
-	des->command = ft_strdup(tmp->word);
-	des->arg[0] = ft_strdup(tmp->word);
-	des->arg[1] = NULL;
+	if (tmp->value == 'R')
+	{
+		ft_red_com(tmp, des, p);
+		return (1);
+	}
+	else
+	{
+		des->command = ft_strdup(tmp->word);
+		des->arg[0] = ft_strdup(tmp->word);
+		des->arg[1] = NULL;
+	}
+	return (0);
 }
 
 void	ft_des_mal(t_info *des, int p, t_data *data)

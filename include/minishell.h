@@ -6,7 +6,7 @@
 /*   By: wyholger <wyholger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 18:04:44 by wpitts            #+#    #+#             */
-/*   Updated: 2022/03/25 15:27:27 by wyholger         ###   ########.fr       */
+/*   Updated: 2022/04/01 16:25:26 by wpitts           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ int		pipe_redir_for_out_redir(t_data *data, t_info *info);
 void	ft_pars_token(t_data *data, int i);
 void	ft_treatmen_token(t_data *data);
 int		ft_check_all_string(t_data *data);
-void	ft_filling_info(t_data *data, int p);
+void	ft_filling_info(t_data *data, int p, int check);
 int		ft_tok_dollar(t_list *token, int i, t_data *data);
 int		ft_tilda(t_list *token, t_data *data, int i, int k);
 void	ft_token_red_treat(t_list *token);
@@ -152,7 +152,7 @@ void	ft_filling_red(t_info *info, char *des);
 char	*generate_heredoke_name(int p);
 void	init_heredok(t_info *des);
 int		ft_check_redmal(t_list *token, int i);
-void	ft_fill_comm(t_info *des, int p, t_data *data);
+int		ft_fill_comm(t_info *des, int p, t_data *data);
 void	ft_des_mal(t_info *des, int p, t_data *data);
 int		ft_fil_fl(t_info *des, t_data *data, int p, int k);
 void	ft_red_fil(t_list *tmp, t_list *tmp1, t_info *des, int *k);
@@ -163,5 +163,9 @@ char	*ft_fil_dol_ex(t_list *token, char *tmp, char *str, int i);
 int		ft_dollar_exit(t_list *token, t_data *data);
 void	ft_help_key(char *tmp, char *str, int *h);
 char	*ft_mal_tmp(t_list *token, char *str);
+int		ft_help_dquo(t_list *token, t_data *data, int i);
+int		ft_help_dquo2(t_list *token);
+int		ft_help_quo1(t_list *token);
+void	ft_red_com(t_list *tmp, t_info *des, int p);
 
 #endif
