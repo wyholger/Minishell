@@ -26,7 +26,7 @@
 # include <errno.h>
 # include <termios.h>
 
-# define MINISHELL_MSG "minishell$ "
+# define MINISHELL_MSG "\033[0;35mminishell$ \033[0;0m"
 
 int	g_exit;
 
