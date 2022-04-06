@@ -1,5 +1,7 @@
 # Minishell
 
+![Minishell](https://github.com/wyholger/Minishell/blob/main/img/video1680565114.gif?raw=true)
+
 Совместный проект @wyholger и @wpitts по созданию своей shell оболочки (как bash).
 
 Программа ведет себя идентично bash, реализована логика команд:
